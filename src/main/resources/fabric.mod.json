@@ -14,7 +14,7 @@
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/ccperipheralsfabric/icon.png",
+  "icon": "assets/ccperipherals/icon.png",
 
   "environment": "*",
   "entrypoints": {
