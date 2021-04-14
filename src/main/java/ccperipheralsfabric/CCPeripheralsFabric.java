@@ -1,5 +1,6 @@
 package ccperipheralsfabric;
 
+import ccperipheralsfabric.common.block.EnvironmentSensor;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -19,7 +20,7 @@ public class CCPeripheralsFabric implements ModInitializer {
 	public static final String MOD_ID = "CCPeripheralsFabric";
 	public static final String MOD_NAME = "CCPeripheralsFabric";
 
-	public static final Block ENVIRONMENT_SENSOR = new Block(FabricBlockSettings.of(Material.METAL).strength(4.0f));
+	public static final EnvironmentSensor ENVIRONMENT_SENSOR = new EnvironmentSensor(FabricBlockSettings.of(Material.METAL).strength(4.0f));
 
 	@Override
 	public void onInitialize() {

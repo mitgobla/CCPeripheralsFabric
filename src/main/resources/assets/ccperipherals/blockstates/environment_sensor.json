@@ -1,6 +1,11 @@
 {
   "variants": {
-    "": { "model": "ccperipherals:block/environment_sensor" }
+    "facing=down": { "model": "ccperipherals:block/environment_sensor", "x": 90 },
+    "facing=east": { "model": "ccperipherals:block/environment_sensor", "y": 90 },
+    "facing=north": { "model": "ccperipherals:block/environment_sensor" },
+    "facing=south": { "model": "ccperipherals:block/environment_sensor", "y": 180 },
+    "facing=up": { "model": "ccperipherals:block/environment_sensor", "x": 270 },
+    "facing=west": { "model": "ccperipherals:block/environment_sensor", "y": 270 }
   }
 }
 
