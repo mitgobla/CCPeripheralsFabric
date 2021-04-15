@@ -1,0 +1,44 @@
+{
+  "display": {
+    "icon": {
+      "item": "ccperipherals:environment_sensor"
+    },
+    "title": {
+      "translate": "advancements.ccperipherals.root.title"
+    },
+    "description": {
+      "translate": "advancements.ccperipherals.root.description"
+    },
+    "show_toast": false,
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/adventure.png"
+  },
+  "criteria": {
+    "ore_in_inventory": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:redstone"
+          }
+        ]
+      }
+    },
+    "ore2_in_inventory": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "minecraft:iron_ingot"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "ore_in_inventory",
+      "ore2_in_inventory"
+    ]
+  ]
+}
