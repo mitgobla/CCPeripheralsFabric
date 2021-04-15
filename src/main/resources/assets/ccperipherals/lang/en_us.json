@@ -8,6 +8,8 @@
   "advancements.ccperipherals.root.description": "Peripherals and more for ComputerCraft Fabric",
   "advancements.ccperipherals.environment_sensor": "Detect the world!",
   "advancements.ccperipherals.environment_sensor.desc": "Craft an Environment Sensor",
+  "advancements.ccperipherals.player_sensor": "Who dat",
+  "advancements.ccperipherals.player_sensor.desc": "Craft a Player Sensor",
   "advancements.ccperipherals.fan_machine": "Average Fan Enjoyer",
   "advancements.ccperipherals.fan_machine.desc": "Craft a Fan",
   "advancements.ccperipherals.chatbox_machine": "Get Good, Get LMAOBOX",
