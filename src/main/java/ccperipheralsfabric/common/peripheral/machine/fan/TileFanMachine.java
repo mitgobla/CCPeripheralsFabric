@@ -41,13 +41,21 @@ public class TileFanMachine extends TileGeneric implements IPeripheralTile, Tick
     }
 
     private void pushEntities() {
-        Direction direction = this.getCachedState().get(BlockFanMachine.FACING);
-        Box box = new Box(this.getPos(), this.getPos().offset(direction, 5).add(1, 1, 1));
-        List<Entity> entities = this.world.getEntitiesByClass(Entity.class, box, null);
-        Vec3d dirVector = new Vec3d(direction.getOffsetX(), direction.getOffsetY(), direction.getOffsetZ());
-        dirVector = dirVector.multiply(0.15);
-        for (Entity entity: entities) {
-            entity.setVelocity(entity.getVelocity().add(dirVector));
+        if (this.world != null ) {
+            Direction direction = this.getCachedState().get(BlockFanMachine.FACING);
+            int distance = 0;
+            for (int i = 1; i <= 5; i++) {
+                if (!this.world.getBlockState(this.getPos().offset(direction, i)).isAir()) break;
+                distance = i;
+            }
+
+            Box box = new Box(this.getPos(), this.getPos().offset(direction, distance).add(1, 1, 1));
+            List<Entity> entities = this.world.getEntitiesByClass(Entity.class, box, null);
+            Vec3d dirVector = new Vec3d(direction.getOffsetX(), direction.getOffsetY(), direction.getOffsetZ());
+            dirVector = dirVector.multiply(0.15);
+            for (Entity entity : entities) {
+                entity.setVelocity(entity.getVelocity().add(dirVector));
+            }
         }
     }
 
