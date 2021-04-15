@@ -2,11 +2,14 @@
   "block.ccperipherals.environment_sensor": "Environment Sensor",
   "block.ccperipherals.fan_machine": "Fan",
   "item.ccperipherals.fan_blade": "Fan Blade",
+  "block.ccperipherals.chatbox_machine": "Chatbox",
   "itemGroup.ccperipherals.general": "ComputerCraft Peripherals",
   "advancements.ccperipherals.root.title": "ComputerCraft Peripherals",
   "advancements.ccperipherals.root.description": "Peripherals and more for ComputerCraft Fabric",
   "advancements.ccperipherals.environment_sensor": "Detect the world!",
   "advancements.ccperipherals.environment_sensor.desc": "Craft an Environment Sensor",
   "advancements.ccperipherals.fan_machine": "Average Fan Enjoyer",
-  "advancements.ccperipherals.fan_machine.desc": "Craft a Fan"
+  "advancements.ccperipherals.fan_machine.desc": "Craft a Fan",
+  "advancements.ccperipherals.chatbox_machine": "Get Good, Get LMAOBOX",
+  "advancements.ccperipherals.chatbox_machine.desc": "Craft a Chatbox"
 }

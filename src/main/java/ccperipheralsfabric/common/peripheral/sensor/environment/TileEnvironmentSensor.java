@@ -1,7 +1,7 @@
 package ccperipheralsfabric.common.peripheral.sensor.environment;
 
 import ccperipheralsfabric.CCPeripheralsFabric;
-import com.sun.istack.internal.Nullable;
+
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 // implements Tickable
 

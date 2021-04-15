@@ -1,5 +1,7 @@
 package ccperipheralsfabric;
 
+import ccperipheralsfabric.common.peripheral.machine.chatbox.BlockChatboxMachine;
+import ccperipheralsfabric.common.peripheral.machine.chatbox.TileChatboxMachine;
 import ccperipheralsfabric.common.peripheral.machine.fan.BlockFanMachine;
 import ccperipheralsfabric.common.peripheral.machine.fan.TileFanMachine;
 import ccperipheralsfabric.common.peripheral.sensor.environment.BlockEnvironmentSensor;
@@ -33,6 +35,9 @@ public class CCPeripheralsFabric implements ModInitializer {
 	// Fan Machine
 	public static final BlockFanMachine FAN_MACHINE = new BlockFanMachine(FabricBlockSettings.of(Material.METAL).strength(4.0f));
 	public static BlockEntityType<TileFanMachine> TILE_FAN_MACHINE;
+	// Chatbox Machine
+	public static final BlockChatboxMachine CHATBOX_MACHINE = new BlockChatboxMachine(FabricBlockSettings.of(Material.METAL).strength(4.0f));
+	public static BlockEntityType<TileChatboxMachine> TILE_CHATBOX_MACHINE;
 
 	// ItemGroup
 	public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(
@@ -54,6 +59,10 @@ public class CCPeripheralsFabric implements ModInitializer {
 		TILE_FAN_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:fan_machine", BlockEntityType.Builder.create(TileFanMachine::new, FAN_MACHINE).build(null));
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "fan_machine"), new BlockItem(FAN_MACHINE, new FabricItemSettings().group(ITEM_GROUP)));
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "fan_blade"), ITEM_FAN_MACHINE_BLADE);
+		// Chatbox Machine
+		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "chatbox_machine"), CHATBOX_MACHINE);
+		TILE_CHATBOX_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:chatbox_machine", BlockEntityType.Builder.create(TileChatboxMachine::new, CHATBOX_MACHINE).build(null));
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "chatbox_machine"), new BlockItem(CHATBOX_MACHINE, new FabricItemSettings().group(ITEM_GROUP)));
 		// Finish
 		log(Level.INFO, "Finished initializing");
 	}

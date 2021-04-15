@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "facing=down": { "model": "ccperipherals:block/chatbox_machine", "x": 90 },
+    "facing=east": { "model": "ccperipherals:block/chatbox_machine", "y": 90 },
+    "facing=north": { "model": "ccperipherals:block/chatbox_machine" },
+    "facing=south": { "model": "ccperipherals:block/chatbox_machine", "y": 180 },
+    "facing=up": { "model": "ccperipherals:block/chatbox_machine", "x": 270 },
+    "facing=west": { "model": "ccperipherals:block/chatbox_machine", "y": 270 }
+  }
+}
+

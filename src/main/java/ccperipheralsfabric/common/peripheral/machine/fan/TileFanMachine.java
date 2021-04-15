@@ -1,7 +1,6 @@
 package ccperipheralsfabric.common.peripheral.machine.fan;
 
 import ccperipheralsfabric.CCPeripheralsFabric;
-import com.sun.istack.internal.Nullable;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
@@ -13,6 +12,7 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 

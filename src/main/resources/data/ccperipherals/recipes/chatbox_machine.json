@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "WRW",
+    " W "
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "minecraft:note_block"
+    }
+  },
+  "result": {
+    "item": "ccperipherals:chatbox_machine",
+    "count": 1
+  }
+}
+
