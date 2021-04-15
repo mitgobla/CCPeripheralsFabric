@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "ccperipherals:environment_sensor"
+      "item": "ccperipherals:fan_blade"
     },
     "title": {
       "translate": "advancements.ccperipherals.root.title"

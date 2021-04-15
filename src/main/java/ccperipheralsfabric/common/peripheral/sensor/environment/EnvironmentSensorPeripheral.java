@@ -3,9 +3,13 @@ package ccperipheralsfabric.common.peripheral.sensor.environment;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.block.BlockState;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -24,7 +28,6 @@ public abstract class EnvironmentSensorPeripheral implements IPeripheral {
     public abstract World getWorld();
 
     public abstract Vec3d getPosition();
-
     /**
      * Gets data about the world this sensor is in.
      */
@@ -40,7 +43,6 @@ public abstract class EnvironmentSensorPeripheral implements IPeripheral {
         Vec3d pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));
         Map<String, Object> data = new HashMap<String, Object>();
-
         if (world == null) {
             return null;
         }

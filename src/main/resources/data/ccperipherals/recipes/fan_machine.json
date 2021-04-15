@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " W ",
+    "WRW",
+    " W "
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:iron_ingot"
+    },
+    "R": {
+      "item": "ccperipherals:fan_blade"
+    }
+  },
+  "result": {
+    "item": "ccperipherals:fan_machine",
+    "count": 1
+  }
+}
+
