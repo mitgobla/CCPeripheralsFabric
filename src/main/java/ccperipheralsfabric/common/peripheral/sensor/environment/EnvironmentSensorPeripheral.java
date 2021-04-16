@@ -54,10 +54,34 @@ public abstract class EnvironmentSensorPeripheral implements IPeripheral {
         data.put("raining", world.isRaining());
         data.put("light_level", world.getLightLevel(new BlockPos(pos).add(state.get(Properties.FACING).getVector())));
         data.put("thunder", world.isThundering());
-        data.put("moon_phase", world.getMoonPhase());
-        data.put("moon_size", world.getMoonSize());
+        data.put("moon_phase", getMoonPhase(world.getLunarTime()));
         data.put("sky_angle", world.getSkyAngle(1.0F));
         return data;
+    }
+
+    private static int getMoonPhaseInt(long lunarTime) {
+        return (int)(lunarTime / 24000L % 8L + 8L) % 8;
+    }
+
+    public static String getMoonPhase(long lunarTime) {
+        switch (getMoonPhaseInt(lunarTime)) {
+            default:
+                return "Full moon";
+            case 1:
+                return "Waning gibbous";
+            case 2:
+                return "Third quarter";
+            case 3:
+                return "Waning crescent";
+            case 4:
+                return "New moon";
+            case 5:
+                return "Waxing crescent";
+            case 6:
+                return "First quarter";
+            case 7:
+                return "Waxing gibbous";
+        }
     }
 
 }
