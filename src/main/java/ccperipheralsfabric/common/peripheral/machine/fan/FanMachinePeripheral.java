@@ -1,6 +1,5 @@
 package ccperipheralsfabric.common.peripheral.machine.fan;
 
-import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -28,13 +27,13 @@ public abstract class FanMachinePeripheral implements IPeripheral {
      * Returns the state of the fan.
      */
     @LuaFunction
-    public final boolean toggle(ILuaContext context) throws LuaException {
+    public final boolean toggle() throws LuaException {
         // normally check if inputs are valid here
         // but not necessary for this machine
-        return this.toggleMethod(context);
+        return this.toggleMethod();
     }
 
-    private synchronized boolean toggleMethod(ILuaContext context) throws LuaException {
+    private synchronized boolean toggleMethod() throws LuaException {
         World world = this.getWorld();
         Vec3d pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));
@@ -48,13 +47,13 @@ public abstract class FanMachinePeripheral implements IPeripheral {
      * Get the current state of the fan.
      */
     @LuaFunction
-    public final boolean state(ILuaContext context) throws LuaException {
-        return this.stateMethod(context);
+    public final boolean state() throws LuaException {
+        return this.stateMethod();
     }
 
 
 
-    private synchronized boolean stateMethod(ILuaContext context) throws LuaException {
+    private synchronized boolean stateMethod() throws LuaException {
         World world = this.getWorld();
         Vec3d pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));

@@ -1,6 +1,5 @@
 package ccperipheralsfabric.common.peripheral.sensor.environment;
 
-import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -32,20 +31,17 @@ public abstract class EnvironmentSensorPeripheral implements IPeripheral {
      * Gets data about the world this sensor is in.
      */
     @LuaFunction
-    public final Map<String, Object> getData(ILuaContext context) throws LuaException {
+    public final Map<String, Object> getData() throws LuaException {
         // normally check if inputs are valid here
         // but not necessary for this sensor
-        return this.getDataMethod(context);
+        return this.getDataMethod();
     }
 
-    private synchronized Map<String, Object> getDataMethod(ILuaContext context) throws LuaException {
+    private synchronized Map<String, Object> getDataMethod() throws LuaException {
         World world = this.getWorld();
         Vec3d pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));
         Map<String, Object> data = new HashMap<String, Object>();
-        if (world == null) {
-            return null;
-        }
 
         data.put("time", world.getTime());
         data.put("daytime", world.isDay());

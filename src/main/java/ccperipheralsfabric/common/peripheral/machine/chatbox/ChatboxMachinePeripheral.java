@@ -1,6 +1,5 @@
 package ccperipheralsfabric.common.peripheral.machine.chatbox;
 
-import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
@@ -26,19 +25,18 @@ public abstract class ChatboxMachinePeripheral implements IPeripheral {
 
     /**
      * Send a message to all players.
-     * @param context The Lua Context
      * @param message The message to post to all players.
      * @param actionBar If the message should appear on the actionBar
      * @return Whether the message was sent.
      * @throws LuaException If the message was an incorrect format.
      */
     @LuaFunction
-    public final boolean sendMessage(ILuaContext context, String message, Optional<Boolean> actionBar) throws LuaException {
+    public final boolean sendMessage(String message, Optional<Boolean> actionBar) throws LuaException {
         if (message.length() == 0 || message.length() > 256) return false;
-        return this.sendMessageMethod(context, message, actionBar.orElse(false));
+        return this.sendMessageMethod(message, actionBar.orElse(false));
     }
 
-    private synchronized boolean sendMessageMethod(ILuaContext context, String message, boolean actionBar) throws LuaException {
+    private synchronized boolean sendMessageMethod(String message, boolean actionBar) throws LuaException {
         World world = this.getWorld();
 
         List<? extends PlayerEntity> players = world.getPlayers();
