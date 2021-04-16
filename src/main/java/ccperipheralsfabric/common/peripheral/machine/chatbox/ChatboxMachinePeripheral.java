@@ -5,7 +5,7 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -49,7 +49,7 @@ public abstract class ChatboxMachinePeripheral implements IPeripheral {
 
         for (PlayerEntity player : players) {
             if (player.getPos().distanceTo(this.getPosition()) < 32) {
-                player.sendMessage(Text.of(message), actionBar);
+                player.sendMessage(new LiteralText(message), actionBar);
             }
         }
         return true;
