@@ -1,20 +1,24 @@
 package ccperipheralsfabric.common.peripheral.sensor.player;
 
-import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
+import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.block.BlockState;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.squiddev.cobalt.LuaNil;
 
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class PlayerSensorPeripheral implements IPeripheral {
+    private final Set<IComputerAccess> m_computers = new HashSet<>(1);
+    private boolean enabled = false;
+
     @NotNull
     @Override
     public String getType() {
@@ -24,4 +28,61 @@ public abstract class PlayerSensorPeripheral implements IPeripheral {
     public abstract World getWorld();
 
     public abstract Vec3d getPosition();
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public synchronized void attach(@NotNull IComputerAccess computer) {
+        synchronized (this.m_computers) {
+            this.m_computers.add(computer);
+        }
+        this.enabled = true;
+    }
+
+    @Override
+    public synchronized void detach(@NotNull IComputerAccess computer) {
+        boolean empty;
+        synchronized (this.m_computers) {
+            this.m_computers.remove(computer);
+            empty = this.m_computers.isEmpty();
+        }
+
+        if (empty) {
+            this.enabled = false;
+        }
+    }
+
+    @LuaFunction
+    public final int getPlayerCount() {
+        if (this.getWorld() != null && this.isEnabled() && !this.getWorld().isClient) {
+            return getPlayerCountMethod();
+        }
+        return 0;
+    }
+
+    public synchronized int getPlayerCountMethod() {
+        World world = this.getWorld();
+        List<? extends PlayerEntity> players = world.getPlayers();
+        int count = 0;
+        if (players.size() > 0) {
+            for (PlayerEntity player: players) {
+                if (player.getPos().distanceTo(this.getPosition()) < 16) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    public void broadcastPlayers(int count) {
+        synchronized (this.m_computers) {
+            for (IComputerAccess computer : this.m_computers) {
+                computer.queueEvent("player_sensor",
+                        count);
+            }
+        }
+    }
+
 }

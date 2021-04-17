@@ -1,5 +1,6 @@
 {
   "block.ccperipherals.environment_sensor": "Environment Sensor",
+  "block.ccperipherals.player_sensor": "Player Sensor",
   "block.ccperipherals.fan_machine": "Fan",
   "item.ccperipherals.fan_blade": "Fan Blade",
   "block.ccperipherals.chatbox_machine": "Chatbox",

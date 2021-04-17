@@ -4,18 +4,25 @@ import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 
-public class TilePlayerSensor extends TileGeneric implements IPeripheralTile {
+
+public class TilePlayerSensor extends TileGeneric implements IPeripheralTile, Tickable {
     private final PlayerSensorPeripheral peripheral;
 
     public TilePlayerSensor() {
-        super(CCPeripheralsFabric.TILE_ENVIRONMENT_SENSOR);
+        super(CCPeripheralsFabric.TILE_PLAYER_SENSOR);
         this.peripheral = new Peripheral(this);
     }
 
@@ -24,6 +31,23 @@ public class TilePlayerSensor extends TileGeneric implements IPeripheralTile {
         return this.peripheral;
     }
 
+    @Override
+    public void tick() {
+        if (this.world != null && this.peripheral.isEnabled() && !this.world.isClient && this.world.getTimeOfDay()%20==0) {
+            List<? extends PlayerEntity> players = this.world.getPlayers();
+            if (players.size() > 0) {
+                int count = 0;
+                for (PlayerEntity player: players) {
+                    if (player.getPos().distanceTo(peripheral.getPosition()) < 16) {
+                        count++;
+                    }
+                }
+                if (count > 0) {
+                    this.peripheral.broadcastPlayers(count);
+                }
+            }
+        }
+    }
 
     private static final class Peripheral extends PlayerSensorPeripheral {
         private final TilePlayerSensor sensor;
