@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
-import org.squiddev.cobalt.LuaNil;
 
 
 import java.util.HashSet;
@@ -55,14 +54,14 @@ public abstract class PlayerSensorPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public final int getPlayerCount() {
+    public final int getPlayerCount() throws LuaException {
         if (this.getWorld() != null && this.isEnabled() && !this.getWorld().isClient) {
             return getPlayerCountMethod();
         }
         return 0;
     }
 
-    public synchronized int getPlayerCountMethod() {
+    public synchronized int getPlayerCountMethod() throws LuaException {
         World world = this.getWorld();
         List<? extends PlayerEntity> players = world.getPlayers();
         int count = 0;
@@ -80,6 +79,7 @@ public abstract class PlayerSensorPeripheral implements IPeripheral {
         synchronized (this.m_computers) {
             for (IComputerAccess computer : this.m_computers) {
                 computer.queueEvent("player_sensor",
+                        computer.getAttachmentName(),
                         count);
             }
         }
