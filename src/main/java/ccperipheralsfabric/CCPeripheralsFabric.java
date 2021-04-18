@@ -6,6 +6,8 @@ import ccperipheralsfabric.common.peripheral.machine.fan.BlockFanMachine;
 import ccperipheralsfabric.common.peripheral.machine.fan.TileFanMachine;
 import ccperipheralsfabric.common.peripheral.sensor.environment.BlockEnvironmentSensor;
 import ccperipheralsfabric.common.peripheral.sensor.environment.TileEnvironmentSensor;
+import ccperipheralsfabric.common.peripheral.sensor.item.BlockItemSensor;
+import ccperipheralsfabric.common.peripheral.sensor.item.TileItemSensor;
 import ccperipheralsfabric.common.peripheral.sensor.player.BlockPlayerSensor;
 import ccperipheralsfabric.common.peripheral.sensor.player.TilePlayerSensor;
 import net.fabricmc.api.ModInitializer;
@@ -37,6 +39,9 @@ public class CCPeripheralsFabric implements ModInitializer {
 	// Player Sensor
 	public static final BlockPlayerSensor PLAYER_SENSOR = new BlockPlayerSensor(FabricBlockSettings.of(Material.METAL).strength(4.0f));
 	public static BlockEntityType<TilePlayerSensor> TILE_PLAYER_SENSOR;
+	// Item Sensor
+	public static final BlockItemSensor ITEM_SENSOR = new BlockItemSensor(FabricBlockSettings.of(Material.METAL).strength(4.0f));
+	public static BlockEntityType<TileItemSensor> TILE_ITEM_SENSOR;
 	// Fan Machine
 	public static final BlockFanMachine FAN_MACHINE = new BlockFanMachine(FabricBlockSettings.of(Material.METAL).strength(4.0f));
 	public static BlockEntityType<TileFanMachine> TILE_FAN_MACHINE;
@@ -63,6 +68,10 @@ public class CCPeripheralsFabric implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "player_sensor"), PLAYER_SENSOR);
 		TILE_PLAYER_SENSOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:player_sensor", BlockEntityType.Builder.create(TilePlayerSensor::new, PLAYER_SENSOR).build(null));
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "player_sensor"), new BlockItem(PLAYER_SENSOR, new FabricItemSettings().group(ITEM_GROUP)));
+		// Item Sensor
+		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "item_sensor"), ITEM_SENSOR);
+		TILE_ITEM_SENSOR = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:item_sensor", BlockEntityType.Builder.create(TileItemSensor::new, ITEM_SENSOR).build(null));
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "item_sensor"), new BlockItem(ITEM_SENSOR, new FabricItemSettings().group(ITEM_GROUP)));
 		// Fan Machine
 		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "fan_machine"), FAN_MACHINE);
 		TILE_FAN_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:fan_machine", BlockEntityType.Builder.create(TileFanMachine::new, FAN_MACHINE).build(null));

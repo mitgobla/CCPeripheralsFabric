@@ -1,11 +1,10 @@
-package ccperipheralsfabric.common.peripheral.sensor.player;
+package ccperipheralsfabric.common.peripheral.sensor.item;
 
 import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
@@ -18,12 +17,23 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 
-public class TilePlayerSensor extends TileGeneric implements IPeripheralTile, Tickable {
-    private final PlayerSensorPeripheral peripheral;
+public class TileItemSensor extends TileGeneric implements IPeripheralTile, Tickable {
+    private final ItemSensorPeripheral peripheral;
 
-    public TilePlayerSensor() {
-        super(CCPeripheralsFabric.TILE_PLAYER_SENSOR);
+    public TileItemSensor() {
+        super(CCPeripheralsFabric.TILE_ITEM_SENSOR);
         this.peripheral = new Peripheral(this);
+    }
+
+    @Override
+    public void tick() {
+        if (this.world != null && this.peripheral.isEnabled() && !this.world.isClient && this.world.getTime()%20==0) {
+            Box box = new Box(new BlockPos(this.getPos()).add(-4, 0, -4), new BlockPos(this.getPos()).add(4, 1, 4));
+            List<ItemEntity> items = world.getEntitiesByClass(ItemEntity.class, box, null);
+            if (items.size() > 0) {
+                this.peripheral.broadcastItems(items.size());
+            }
+        }
     }
 
     @Override
@@ -31,27 +41,10 @@ public class TilePlayerSensor extends TileGeneric implements IPeripheralTile, Ti
         return this.peripheral;
     }
 
-    @Override
-    public void tick() {
-        if (this.world != null && this.peripheral.isEnabled() && !this.world.isClient && this.world.getTime()%20==0) {
-            List<? extends PlayerEntity> players = this.world.getPlayers();
-            if (players.size() > 0) {
-                int count = 0;
-                for (PlayerEntity player: players) {
-                    if (player.getPos().distanceTo(peripheral.getPosition()) < 16) {
-                        count++;
-                    }
-                }
-                if (count > 0) {
-                    this.peripheral.broadcastPlayers(count);
-                }
-            }
-        }
-    }
 
-    private static final class Peripheral extends PlayerSensorPeripheral {
-        private final TilePlayerSensor sensor;
-        private Peripheral(TilePlayerSensor sensor) {
+    private static final class Peripheral extends ItemSensorPeripheral {
+        private final TileItemSensor sensor;
+        private Peripheral(TileItemSensor sensor) {
             this.sensor = sensor;
         }
 

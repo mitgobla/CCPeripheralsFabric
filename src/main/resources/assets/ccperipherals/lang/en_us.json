@@ -1,6 +1,7 @@
 {
   "block.ccperipherals.environment_sensor": "Environment Sensor",
   "block.ccperipherals.player_sensor": "Player Sensor",
+  "block.ccperipherals.item_sensor": "Item Sensor",
   "block.ccperipherals.fan_machine": "Fan",
   "item.ccperipherals.fan_blade": "Fan Blade",
   "block.ccperipherals.chatbox_machine": "Chatbox",
@@ -11,6 +12,8 @@
   "advancements.ccperipherals.environment_sensor.desc": "Craft an Environment Sensor",
   "advancements.ccperipherals.player_sensor": "Who dat",
   "advancements.ccperipherals.player_sensor.desc": "Craft a Player Sensor",
+  "advancements.ccperipherals.item_sensor": "What dat",
+  "advancements.ccperipherals.item_sensor.desc": "Craft an Item Sensor",
   "advancements.ccperipherals.fan_machine": "Average Fan Enjoyer",
   "advancements.ccperipherals.fan_machine.desc": "Craft a Fan",
   "advancements.ccperipherals.chatbox_machine": "Get Good, Get LMAOBOX",
