@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "facing=down": { "model": "ccperipherals:block/crop_sensor", "x": 90 },
+    "facing=east": { "model": "ccperipherals:block/crop_sensor", "y": 90 },
+    "facing=north": { "model": "ccperipherals:block/crop_sensor" },
+    "facing=south": { "model": "ccperipherals:block/crop_sensor", "y": 180 },
+    "facing=up": { "model": "ccperipherals:block/crop_sensor", "x": 270 },
+    "facing=west": { "model": "ccperipherals:block/crop_sensor", "y": 270 }
+  }
+}
+

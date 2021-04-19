@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "ccperipherals:crop_sensor"
+    },
+    "title": {
+      "translate": "advancements.ccperipherals.crop_sensor"
+    },
+    "description": {
+      "translate": "advancements.ccperipherals.crop_sensor.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "ccperipherals:root",
+  "criteria": {
+    "crit1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "ccperipherals:crop_sensor"
+          }
+        ]
+      }
+    }
+  }
+}
