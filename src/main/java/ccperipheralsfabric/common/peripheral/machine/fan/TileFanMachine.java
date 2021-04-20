@@ -4,8 +4,10 @@ import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -33,7 +35,7 @@ public class TileFanMachine extends TileGeneric implements IPeripheralTile, Tick
     @Override
     public void tick() {
         boolean enabled = this.getCachedState().get(BlockFanMachine.ENABLED);
-        if (this.world != null && !this.world.isClient) {
+        if (this.world != null) {
             if (enabled) {
                 pushEntities();
             }
