@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -73,6 +74,29 @@ public abstract class PlayerSensorPeripheral implements IPeripheral {
             }
         }
         return count;
+    }
+
+    @LuaFunction
+    public final ArrayList<String> getPlayers() throws LuaException {
+        if (this.getWorld() != null && this.isEnabled() && !this.getWorld().isClient) {
+            return getPlayersMethod();
+        }
+        return null;
+    }
+
+    public synchronized ArrayList<String> getPlayersMethod() throws LuaException {
+        World world = this.getWorld();
+        List<? extends PlayerEntity> players = world.getPlayers();
+        if (players.size() > 0) {
+            ArrayList<String> playerNames = new ArrayList<>();
+            for (PlayerEntity player: players) {
+                if (player.getPos().distanceTo(this.getPosition()) < 16) {
+                    playerNames.add(player.getGameProfile().getName());
+                }
+            }
+            return playerNames;
+        }
+        return null;
     }
 
     public void broadcastPlayers(int count) {
