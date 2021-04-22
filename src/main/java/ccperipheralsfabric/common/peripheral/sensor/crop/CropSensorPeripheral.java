@@ -6,6 +6,8 @@ import dan200.computercraft.api.peripheral.IPeripheral;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CropBlock;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.particle.DustParticleEffect;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -28,7 +30,7 @@ public abstract class CropSensorPeripheral implements IPeripheral {
     @LuaFunction
     public final int getCropCount() throws LuaException {
         if (this.getWorld() != null && !this.getWorld().isClient) {
-            return getCropCountMethod(false);
+            return getCropCountMethod(false, false);
         }
         return 0;
     }
@@ -36,12 +38,17 @@ public abstract class CropSensorPeripheral implements IPeripheral {
     @LuaFunction
     public final int getMatureCropCount() throws LuaException {
         if (this.getWorld() != null && !this.getWorld().isClient) {
-            return getCropCountMethod(true);
+            return getCropCountMethod(true, false);
         }
         return 0;
     }
 
-    public synchronized int getCropCountMethod(boolean getMature) throws LuaException {
+    @LuaFunction
+    public final void showCrops() throws LuaException {
+        getCropCountMethod(false, true);
+    }
+
+    public synchronized int getCropCountMethod(boolean getMature, boolean showBox) throws LuaException {
         World world = this.getWorld();
         Direction direction = world.getBlockState(new BlockPos(this.getPosition())).get(Properties.FACING);
         BlockPos pos1 = new BlockPos(this.getPosition()).add(-4.0, 0.0, -4.0);
@@ -49,6 +56,8 @@ public abstract class CropSensorPeripheral implements IPeripheral {
         pos1 = pos1.offset(direction, 5);
         pos2 = pos2.offset(direction, 5);
         Box box = new Box(pos1, pos2);
+        DustParticleEffect particle = new DustParticleEffect(1, 0, 0, 1);
+
         int count = 0;
         for (double i = box.minX; i <= box.maxX; i++) {
             for (double j = box.minZ; j <= box.maxZ; j++) {
@@ -56,6 +65,11 @@ public abstract class CropSensorPeripheral implements IPeripheral {
                 BlockState state = world.getBlockState(pos);
                 Block block = state.getBlock();
                 if (block instanceof CropBlock) {
+                    if (showBox) {
+                        if (MinecraftClient.getInstance().world != null) {
+                            MinecraftClient.getInstance().world.addParticle(particle, i + 0.5, box.maxY, j + 0.5, 0, 0, 0);
+                        }
+                    }
                     if (getMature) {
                         CropBlock crop = (CropBlock) block;
                         if (!crop.isMature(state)) {
@@ -68,5 +82,4 @@ public abstract class CropSensorPeripheral implements IPeripheral {
         }
         return count;
     }
-
 }
