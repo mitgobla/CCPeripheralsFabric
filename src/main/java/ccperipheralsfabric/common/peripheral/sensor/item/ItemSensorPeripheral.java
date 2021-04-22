@@ -68,7 +68,11 @@ public abstract class ItemSensorPeripheral implements IPeripheral {
         World world = this.getWorld();
         Box box = new Box(new BlockPos(this.getPosition()).add(-4, 0, -4), new BlockPos(this.getPosition()).add(4, 1, 4));
         List<ItemEntity> items = world.getEntitiesByClass(ItemEntity.class, box, null);
-        return items.size();
+        int count = 0;
+        for (ItemEntity item: items) {
+            count += item.getStack().getCount();
+        }
+        return count;
     }
 
     public void broadcastItems(int count) {

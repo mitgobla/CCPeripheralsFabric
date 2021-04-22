@@ -31,7 +31,11 @@ public class TileItemSensor extends TileGeneric implements IPeripheralTile, Tick
             Box box = new Box(new BlockPos(this.getPos()).add(-4, 0, -4), new BlockPos(this.getPos()).add(4, 1, 4));
             List<ItemEntity> items = world.getEntitiesByClass(ItemEntity.class, box, null);
             if (items.size() > 0) {
-                this.peripheral.broadcastItems(items.size());
+                int count = 0;
+                for (ItemEntity item: items) {
+                    count += item.getStack().getCount();
+                }
+                this.peripheral.broadcastItems(count);
             }
         }
     }
