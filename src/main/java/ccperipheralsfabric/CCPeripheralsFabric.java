@@ -60,7 +60,14 @@ public class CCPeripheralsFabric implements ModInitializer {
 			() -> new ItemStack(ENVIRONMENT_SENSOR));
 
 	// Items
+	public static final Item ITEM_PERIPHERAL_BOX = new Item(new FabricItemSettings().group(ITEM_GROUP));
 	public static final Item ITEM_FAN_MACHINE_BLADE = new Item(new FabricItemSettings().group(ITEM_GROUP).maxCount(16));
+	public static final Item ITEM_CIRCUIT = new Item(new FabricItemSettings().group(ITEM_GROUP));
+	public static final Item ITEM_DHT_SENSOR = new Item(new FabricItemSettings().group(ITEM_GROUP));
+	public static final Item ITEM_METER = new Item(new FabricItemSettings().group(ITEM_GROUP));
+	public static final Item ITEM_MOTION_SENSOR = new Item(new FabricItemSettings().group(ITEM_GROUP));
+	public static final Item ITEM_SPEAKER = new Item(new FabricItemSettings().group(ITEM_GROUP));
+	public static final Item ITEM_COUNTER = new Item(new FabricItemSettings().group(ITEM_GROUP));
 
 	@Override
 	public void onInitialize() {
@@ -85,11 +92,19 @@ public class CCPeripheralsFabric implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "fan_machine"), FAN_MACHINE);
 		TILE_FAN_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:fan_machine", BlockEntityType.Builder.create(TileFanMachine::new, FAN_MACHINE).build(null));
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "fan_machine"), new BlockItem(FAN_MACHINE, new FabricItemSettings().group(ITEM_GROUP)));
-		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "fan_blade"), ITEM_FAN_MACHINE_BLADE);
 		// Chatbox Machine
 		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "chatbox_machine"), CHATBOX_MACHINE);
 		TILE_CHATBOX_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:chatbox_machine", BlockEntityType.Builder.create(TileChatboxMachine::new, CHATBOX_MACHINE).build(null));
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "chatbox_machine"), new BlockItem(CHATBOX_MACHINE, new FabricItemSettings().group(ITEM_GROUP)));
+		// Peripheral Box & Crafting Components
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "peripheral_box"), ITEM_PERIPHERAL_BOX);
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "fan_blade"), ITEM_FAN_MACHINE_BLADE);
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "circuit"), ITEM_CIRCUIT);
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "dht_sensor"), ITEM_DHT_SENSOR);
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "meter"), ITEM_METER);
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "motion_sensor"), ITEM_MOTION_SENSOR);
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "speaker"), ITEM_SPEAKER);
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "counter"), ITEM_COUNTER);
 		// Finish
 		log(Level.INFO, "Finished initializing");
 	}

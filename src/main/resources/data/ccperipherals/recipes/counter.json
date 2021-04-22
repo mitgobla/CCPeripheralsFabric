@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ccperipherals:circuit"
+    },
+    {
+      "item": "minecraft:lever"
+    },
+    {
+      "item": "minecraft:repeater"
+    }
+  ],
+  "result": {
+    "item": "ccperipherals:counter",
+    "count": 1
+  }
+}
+

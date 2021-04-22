@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ccperipherals:circuit"
+    },
+    {
+      "item": "minecraft:note_block"
+    }
+  ],
+  "result": {
+    "item": "ccperipherals:speaker",
+    "count": 1
+  }
+}
+

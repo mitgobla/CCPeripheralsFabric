@@ -1,18 +1,19 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "WWW",
-    "WRW",
-    "WWW"
-  ],
-  "key": {
-    "W": {
-      "item": "minecraft:iron_ingot"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ccperipherals:peripheral_box"
     },
-    "R": {
-      "item": "minecraft:ender_eye"
+    {
+      "item": "ccperipherals:counter"
+    },
+    {
+      "item": "ccperipherals:motion_sensor"
+    },
+    {
+      "item": "ccperipherals:circuit"
     }
-  },
+  ],
   "result": {
     "item": "ccperipherals:player_sensor",
     "count": 1

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#R#",
+    "iii"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:redstone"
+    },
+    "R": {
+      "item": "minecraft:repeater"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "ccperipherals:circuit",
+    "count": 4
+  }
+}
+

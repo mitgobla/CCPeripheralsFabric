@@ -1,18 +1,16 @@
 {
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    " W ",
-    "WRW",
-    " W "
-  ],
-  "key": {
-    "W": {
-      "item": "minecraft:iron_ingot"
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ccperipherals:peripheral_box"
     },
-    "R": {
+    {
       "item": "ccperipherals:fan_blade"
+    },
+    {
+      "item": "ccperipherals:circuit"
     }
-  },
+  ],
   "result": {
     "item": "ccperipherals:fan_machine",
     "count": 1

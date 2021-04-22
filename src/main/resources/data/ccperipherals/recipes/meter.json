@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:iron_nugget"
+    },
+    {
+      "item": "ccperipherals:circuit"
+    },
+    {
+      "item": "minecraft:compass"
+    }
+  ],
+  "result": {
+    "item": "ccperipherals:meter",
+    "count": 1
+  }
+}
+
