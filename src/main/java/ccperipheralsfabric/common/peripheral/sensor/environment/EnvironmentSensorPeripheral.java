@@ -46,7 +46,7 @@ public abstract class EnvironmentSensorPeripheral implements IPeripheral {
         data.put("time", world.getTime());
         data.put("daytime", world.isDay());
         data.put("dimension", world.getDimension());
-        data.put("biome", world.getBiome(new BlockPos(pos)));
+        data.put("biome", world.getBiome(new BlockPos(pos).add(state.get(Properties.FACING).getVector())));
         data.put("raining", world.isRaining());
         data.put("light_level", world.getLightLevel(new BlockPos(pos).add(state.get(Properties.FACING).getVector())));
         data.put("thunder", world.isThundering());
