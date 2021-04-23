@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "colour=0": { "model": "ccperipherals:block/led/white_led" },
+    "colour=1": { "model": "ccperipherals:block/led/orange_led" },
+    "colour=2": { "model": "ccperipherals:block/led/magenta_led" },
+    "colour=3": { "model": "ccperipherals:block/led/light_blue_led" },
+    "colour=4": { "model": "ccperipherals:block/led/yellow_led" },
+    "colour=5": { "model": "ccperipherals:block/led/lime_led" },
+    "colour=6": { "model": "ccperipherals:block/led/pink_led" },
+    "colour=7": { "model": "ccperipherals:block/led/gray_led" },
+    "colour=8": { "model": "ccperipherals:block/led/light_gray_led" },
+    "colour=9": { "model": "ccperipherals:block/led/cyan_led" },
+    "colour=10": { "model": "ccperipherals:block/led/purple_led" },
+    "colour=11": { "model": "ccperipherals:block/led/blue_led" },
+    "colour=12": { "model": "ccperipherals:block/led/brown_led" },
+    "colour=13": { "model": "ccperipherals:block/led/green_led" },
+    "colour=14": { "model": "ccperipherals:block/led/red_led" },
+    "colour=15": { "model": "ccperipherals:block/led/black_led" }
+  }
+}
+

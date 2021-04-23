@@ -5,6 +5,7 @@
   "block.ccperipherals.crop_sensor": "Crop Sensor",
   "block.ccperipherals.fan_machine": "Fan",
   "block.ccperipherals.chatbox_machine": "Chatbox",
+  "block.ccperipherals.led_machine": "LED Block",
   "item.ccperipherals.fan_blade": "Fan Blade",
   "item.ccperipherals.peripheral_box": "Peripheral Box",
   "item.ccperipherals.circuit": "Circuit Board",
@@ -13,6 +14,7 @@
   "item.ccperipherals.motion_sensor": "Motion Sensor",
   "item.ccperipherals.speaker": "Speaker",
   "item.ccperipherals.counter": "Counter",
+  "item.ccperipherals.rgb_led": "RGB LED",
   "itemGroup.ccperipherals.general": "ComputerCraft Peripherals",
   "advancements.ccperipherals.root.title": "ComputerCraft Peripherals",
   "advancements.ccperipherals.root.description": "Peripherals and more for ComputerCraft Fabric",
@@ -26,6 +28,8 @@
   "advancements.ccperipherals.crop_sensor.desc": "Craft a Crop Sensor",
   "advancements.ccperipherals.fan_machine": "Average Fan Enjoyer",
   "advancements.ccperipherals.fan_machine.desc": "Craft a Fan",
-  "advancements.ccperipherals.chatbox_machine": "Get Good, Get LMAOBOX",
-  "advancements.ccperipherals.chatbox_machine.desc": "Craft a Chatbox"
+  "advancements.ccperipherals.chatbox_machine": "Get Good, Get CHATBOX",
+  "advancements.ccperipherals.chatbox_machine.desc": "Craft a Chatbox",
+  "advancements.ccperipherals.led_machine": "1-block Resolution",
+  "advancements.ccperipherals.led_machine.desc": "Craft an LED Block"
 }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ccperipherals:circuit"
+    },
+    {
+      "item": "ccperipherals:rgb_led"
+    },
+    {
+      "item": "ccperipherals:rgb_led"
+    }
+  ],
+  "result": {
+    "item": "ccperipherals:led_machine",
+    "count": 1
+  }
+}
+

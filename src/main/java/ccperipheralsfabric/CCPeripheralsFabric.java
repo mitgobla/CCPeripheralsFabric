@@ -4,6 +4,8 @@ import ccperipheralsfabric.common.peripheral.machine.chatbox.BlockChatboxMachine
 import ccperipheralsfabric.common.peripheral.machine.chatbox.TileChatboxMachine;
 import ccperipheralsfabric.common.peripheral.machine.fan.BlockFanMachine;
 import ccperipheralsfabric.common.peripheral.machine.fan.TileFanMachine;
+import ccperipheralsfabric.common.peripheral.machine.led.BlockLEDMachine;
+import ccperipheralsfabric.common.peripheral.machine.led.TileLEDMachine;
 import ccperipheralsfabric.common.peripheral.sensor.crop.BlockCropSensor;
 import ccperipheralsfabric.common.peripheral.sensor.crop.TileCropSensor;
 import ccperipheralsfabric.common.peripheral.sensor.environment.BlockEnvironmentSensor;
@@ -22,6 +24,7 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.Level;
@@ -53,6 +56,9 @@ public class CCPeripheralsFabric implements ModInitializer {
 	// Chatbox Machine
 	public static final BlockChatboxMachine CHATBOX_MACHINE = new BlockChatboxMachine(FabricBlockSettings.of(Material.METAL).strength(4.0f));
 	public static BlockEntityType<TileChatboxMachine> TILE_CHATBOX_MACHINE;
+	// LED Machine
+	public static final BlockLEDMachine LED_MACHINE = new BlockLEDMachine(FabricBlockSettings.of(Material.GLASS).strength(4.0f).sounds(BlockSoundGroup.GLASS).luminance(15));
+	public static BlockEntityType<TileLEDMachine> TILE_LED_MACHINE;
 
 	// ItemGroup
 	public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(
@@ -68,6 +74,7 @@ public class CCPeripheralsFabric implements ModInitializer {
 	public static final Item ITEM_MOTION_SENSOR = new Item(new FabricItemSettings().group(ITEM_GROUP));
 	public static final Item ITEM_SPEAKER = new Item(new FabricItemSettings().group(ITEM_GROUP));
 	public static final Item ITEM_COUNTER = new Item(new FabricItemSettings().group(ITEM_GROUP));
+	public static final Item ITEM_RGB_LED = new Item(new FabricItemSettings().group(ITEM_GROUP));
 
 	@Override
 	public void onInitialize() {
@@ -96,6 +103,10 @@ public class CCPeripheralsFabric implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "chatbox_machine"), CHATBOX_MACHINE);
 		TILE_CHATBOX_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:chatbox_machine", BlockEntityType.Builder.create(TileChatboxMachine::new, CHATBOX_MACHINE).build(null));
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "chatbox_machine"), new BlockItem(CHATBOX_MACHINE, new FabricItemSettings().group(ITEM_GROUP)));
+		// LED Machine
+		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "led_machine"), LED_MACHINE);
+		TILE_LED_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:led_machine", BlockEntityType.Builder.create(TileLEDMachine::new, LED_MACHINE).build(null));
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "led_machine"), new BlockItem(LED_MACHINE, new Item.Settings().group(ITEM_GROUP)));
 		// Peripheral Box & Crafting Components
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "peripheral_box"), ITEM_PERIPHERAL_BOX);
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "fan_blade"), ITEM_FAN_MACHINE_BLADE);
@@ -105,6 +116,7 @@ public class CCPeripheralsFabric implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "motion_sensor"), ITEM_MOTION_SENSOR);
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "speaker"), ITEM_SPEAKER);
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "counter"), ITEM_COUNTER);
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "rgb_led"), ITEM_RGB_LED);
 		// Finish
 		log(Level.INFO, "Finished initializing");
 	}
