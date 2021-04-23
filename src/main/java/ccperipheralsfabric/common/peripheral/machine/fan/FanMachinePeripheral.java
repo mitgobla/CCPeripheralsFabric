@@ -35,9 +35,9 @@ public abstract class FanMachinePeripheral implements IPeripheral {
 
     private synchronized boolean toggleMethod() throws LuaException {
         World world = this.getWorld();
+        if (world.isClient) return false;
         Vec3d pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));
-
         world.setBlockState(new BlockPos(pos), state.with(BlockFanMachine.ENABLED, !state.get(BlockFanMachine.ENABLED)));
         return world.getBlockState(new BlockPos(pos)).get(BlockFanMachine.ENABLED);
     }
@@ -55,6 +55,7 @@ public abstract class FanMachinePeripheral implements IPeripheral {
 
     private synchronized boolean stateMethod() throws LuaException {
         World world = this.getWorld();
+        if (world.isClient) return false;
         Vec3d pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));
 
