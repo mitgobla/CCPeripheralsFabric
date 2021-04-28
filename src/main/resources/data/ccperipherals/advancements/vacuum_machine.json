@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "ccperipherals:vacuum_machine"
+    },
+    "title": {
+      "translate": "advancements.ccperipherals.vacuum_machine"
+    },
+    "description": {
+      "translate": "advancements.ccperipherals.vacuum_machine.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "ccperipherals:root",
+  "criteria": {
+    "crit1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "ccperipherals:vacuum_machine"
+          }
+        ]
+      }
+    }
+  }
+}

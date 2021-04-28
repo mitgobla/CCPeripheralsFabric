@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ccperipherals:peripheral_box"
+    },
+    {
+      "item": "ccperipherals:fan_blade"
+    },
+    {
+      "item": "ccperipherals:fan_blade"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "ccperipherals:circuit"
+    }
+  ],
+  "result": {
+    "item": "ccperipherals:vacuum_machine",
+    "count": 1
+  }
+}
+

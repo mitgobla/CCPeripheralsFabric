@@ -6,6 +6,8 @@ import ccperipheralsfabric.common.peripheral.machine.fan.BlockFanMachine;
 import ccperipheralsfabric.common.peripheral.machine.fan.TileFanMachine;
 import ccperipheralsfabric.common.peripheral.machine.led.BlockLEDMachine;
 import ccperipheralsfabric.common.peripheral.machine.led.TileLEDMachine;
+import ccperipheralsfabric.common.peripheral.machine.vacuum.BlockVacuumMachine;
+import ccperipheralsfabric.common.peripheral.machine.vacuum.TileVacuumMachine;
 import ccperipheralsfabric.common.peripheral.sensor.crop.BlockCropSensor;
 import ccperipheralsfabric.common.peripheral.sensor.crop.TileCropSensor;
 import ccperipheralsfabric.common.peripheral.sensor.environment.BlockEnvironmentSensor;
@@ -59,7 +61,9 @@ public class CCPeripheralsFabric implements ModInitializer {
 	// LED Machine
 	public static final BlockLEDMachine LED_MACHINE = new BlockLEDMachine(FabricBlockSettings.of(Material.GLASS).strength(4.0f).sounds(BlockSoundGroup.GLASS).luminance(15));
 	public static BlockEntityType<TileLEDMachine> TILE_LED_MACHINE;
-
+	// Vacuum Machine
+	public static final BlockVacuumMachine VACUUM_MACHINE = new BlockVacuumMachine(FabricBlockSettings.of(Material.METAL).strength(4.0f));
+	public static BlockEntityType<TileVacuumMachine> TILE_VACUUM_MACHINE;
 	// ItemGroup
 	public static final ItemGroup ITEM_GROUP = FabricItemGroupBuilder.build(
 			new Identifier("ccperipherals", "general"),
@@ -107,6 +111,10 @@ public class CCPeripheralsFabric implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "led_machine"), LED_MACHINE);
 		TILE_LED_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:led_machine", BlockEntityType.Builder.create(TileLEDMachine::new, LED_MACHINE).build(null));
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "led_machine"), new BlockItem(LED_MACHINE, new Item.Settings().group(ITEM_GROUP)));
+		// Vacuum Machine
+		Registry.register(Registry.BLOCK, new Identifier("ccperipherals", "vacuum_machine"), VACUUM_MACHINE);
+		TILE_VACUUM_MACHINE = Registry.register(Registry.BLOCK_ENTITY_TYPE, "ccperipherals:vacuum_machine", BlockEntityType.Builder.create(TileVacuumMachine::new, VACUUM_MACHINE).build(null));
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "vacuum_machine"), new BlockItem(VACUUM_MACHINE, new FabricItemSettings().group(ITEM_GROUP)));
 		// Peripheral Box & Crafting Components
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "peripheral_box"), ITEM_PERIPHERAL_BOX);
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "fan_blade"), ITEM_FAN_MACHINE_BLADE);

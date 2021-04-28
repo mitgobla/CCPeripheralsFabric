@@ -6,6 +6,7 @@
   "block.ccperipherals.fan_machine": "Fan",
   "block.ccperipherals.chatbox_machine": "Chatbox",
   "block.ccperipherals.led_machine": "LED Block",
+  "block.ccperipherals.vacuum_machine": "Vacuum",
   "item.ccperipherals.fan_blade": "Fan Blade",
   "item.ccperipherals.peripheral_box": "Peripheral Box",
   "item.ccperipherals.circuit": "Circuit Board",
@@ -31,5 +32,7 @@
   "advancements.ccperipherals.chatbox_machine": "Get Good, Get CHATBOX",
   "advancements.ccperipherals.chatbox_machine.desc": "Craft a Chatbox",
   "advancements.ccperipherals.led_machine": "Large Entertainment Device",
-  "advancements.ccperipherals.led_machine.desc": "Craft an LED Block"
+  "advancements.ccperipherals.led_machine.desc": "Craft an LED Block",
+  "advancements.ccperipherals.vacuum_machine": "Big Succ",
+  "advancements.ccperipherals.vacuum_machine.desc": "Craft a Vacuum"
 }

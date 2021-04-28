@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "enabled=true": { "model": "ccperipherals:block/vacuum_machine"},
+    "enabled=false": { "model": "ccperipherals:block/vacuum_machine"}
+  }
+}
+
