@@ -1,5 +1,6 @@
 package ccperipheralsfabric.common.peripheral.sensor.player;
 
+import ccperipheralsfabric.types.PlayerType;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
@@ -77,24 +78,24 @@ public abstract class PlayerSensorPeripheral implements IPeripheral {
     }
 
     @LuaFunction
-    public final ArrayList<String> getPlayers() throws LuaException {
+    public final ArrayList<PlayerType> getPlayers() throws LuaException {
         if (this.getWorld() != null && this.isEnabled() && !this.getWorld().isClient) {
             return getPlayersMethod();
         }
         return null;
     }
 
-    public synchronized ArrayList<String> getPlayersMethod() throws LuaException {
+    public synchronized ArrayList<PlayerType> getPlayersMethod() throws LuaException {
         World world = this.getWorld();
         List<? extends PlayerEntity> players = world.getPlayers();
         if (players.size() > 0) {
-            ArrayList<String> playerNames = new ArrayList<>();
+            ArrayList<PlayerType> playerTypes = new ArrayList<>();
             for (PlayerEntity player: players) {
                 if (player.getPos().distanceTo(this.getPosition()) < 16) {
-                    playerNames.add(player.getGameProfile().getName());
+                    playerTypes.add(new PlayerType(player));
                 }
             }
-            return playerNames;
+            return playerTypes;
         }
         return null;
     }
