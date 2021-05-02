@@ -1,5 +1,6 @@
 package ccperipheralsfabric;
 
+import ccperipheralsfabric.common.item.SecurityCardItem;
 import ccperipheralsfabric.common.peripheral.machine.chatbox.BlockChatboxMachine;
 import ccperipheralsfabric.common.peripheral.machine.chatbox.TileChatboxMachine;
 import ccperipheralsfabric.common.peripheral.machine.fan.BlockFanMachine;
@@ -79,6 +80,7 @@ public class CCPeripheralsFabric implements ModInitializer {
 	public static final Item ITEM_SPEAKER = new Item(new FabricItemSettings().group(ITEM_GROUP));
 	public static final Item ITEM_COUNTER = new Item(new FabricItemSettings().group(ITEM_GROUP));
 	public static final Item ITEM_RGB_LED = new Item(new FabricItemSettings().group(ITEM_GROUP));
+	public static final SecurityCardItem ITEM_SECURITY_CARD = new SecurityCardItem(new FabricItemSettings().group(ITEM_GROUP));
 
 	@Override
 	public void onInitialize() {
@@ -125,6 +127,8 @@ public class CCPeripheralsFabric implements ModInitializer {
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "speaker"), ITEM_SPEAKER);
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "counter"), ITEM_COUNTER);
 		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "rgb_led"), ITEM_RGB_LED);
+		// Cards
+		Registry.register(Registry.ITEM, new Identifier("ccperipherals", "security_card"), ITEM_SECURITY_CARD);
 		// Finish
 		log(Level.INFO, "Finished initializing");
 	}
