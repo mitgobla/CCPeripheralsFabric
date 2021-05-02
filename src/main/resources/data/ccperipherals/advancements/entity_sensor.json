@@ -1,0 +1,30 @@
+{
+  "display": {
+    "icon": {
+      "item": "ccperipherals:entity_sensor"
+    },
+    "title": {
+      "translate": "advancements.ccperipherals.entity_sensor"
+    },
+    "description": {
+      "translate": "advancements.ccperipherals.entity_sensor.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "ccperipherals:root",
+  "criteria": {
+    "crit1": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "ccperipherals:entity_sensor"
+          }
+        ]
+      }
+    }
+  }
+}

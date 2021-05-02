@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "facing=down": { "model": "ccperipherals:block/entity_sensor", "x": 90 },
+    "facing=east": { "model": "ccperipherals:block/entity_sensor", "y": 90 },
+    "facing=north": { "model": "ccperipherals:block/entity_sensor" },
+    "facing=south": { "model": "ccperipherals:block/entity_sensor", "y": 180 },
+    "facing=up": { "model": "ccperipherals:block/entity_sensor", "x": 270 },
+    "facing=west": { "model": "ccperipherals:block/entity_sensor", "y": 270 }
+  }
+}
+

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "ccperipherals:peripheral_box"
+    },
+    {
+      "item": "ccperipherals:counter"
+    },
+    {
+      "item": "ccperipherals:motion_sensor"
+    },
+    {
+      "item": "ccperipherals:circuit"
+    },
+    {
+      "item": "minecraft:ender_pearl"
+    }
+  ],
+  "result": {
+    "item": "ccperipherals:entity_sensor",
+    "count": 1
+  }
+}
+
