@@ -4,7 +4,6 @@ import dan200.computercraft.api.lua.LuaFunction;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.registry.Registry;
 
 import java.util.HashMap;
@@ -32,37 +31,37 @@ public class LivingEntityType {
     }
 
     @LuaFunction
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     @LuaFunction
-    public String getIdentifier() {
+    public final String getIdentifier() {
         return identifier;
     }
 
     @LuaFunction
-    public String getCustomName() {
+    public final String getCustomName() {
         return customName;
     }
 
     @LuaFunction
-    public float getHealth() {
+    public final float getHealth() {
         return health;
     }
 
     @LuaFunction
-    public float getMaxHealth() {
+    public final float getMaxHealth() {
         return maxHealth;
     }
 
     @LuaFunction
-    public boolean isHostile() {
+    public final boolean isHostile() {
         return isHostile;
     }
 
     @LuaFunction
-    public Map<String, Object> toTable() {
+    public final Map<String, Object> toTable() {
         Map<String, Object> data = new HashMap<>();
         data.put("name", this.name);
         data.put("identifier", this.identifier);

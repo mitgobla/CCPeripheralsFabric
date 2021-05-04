@@ -27,42 +27,42 @@ public class ItemType {
     }
 
     @LuaFunction
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     @LuaFunction
-    public String getCustomName() {
+    public final String getCustomName() {
         return customName.equals("") ? this.name : this.customName;
     }
 
     @LuaFunction
-    public int getCount() {
+    public final int getCount() {
         return count;
     }
 
     @LuaFunction
-    public int getMaxCount() {
+    public final int getMaxCount() {
         return maxCount;
     }
 
     @LuaFunction
-    public int getDamage() {
+    public final int getDamage() {
         return damage;
     }
 
     @LuaFunction
-    public int getMaxDamage() {
+    public final int getMaxDamage() {
         return maxDamage;
     }
 
     @LuaFunction
-    public boolean isEnchanted() {
+    public final boolean isEnchanted() {
         return enchanted;
     }
 
     @LuaFunction
-    public Map<String, Object> toTable() {
+    public final Map<String, Object> toTable() {
         Map<String, Object> data = new HashMap<>();
         data.put("name", this.name);
         data.put("custom_name", this.customName);

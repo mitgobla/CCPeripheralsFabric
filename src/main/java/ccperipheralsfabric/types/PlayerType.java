@@ -27,37 +27,37 @@ public class PlayerType {
     }
 
     @LuaFunction
-    public String getName() {
+    public final String getName() {
         return name;
     }
 
     @LuaFunction
-    public String getUuid() {
+    public final String getUuid() {
         return uuid;
     }
 
     @LuaFunction
-    public int getExperienceLevel() {
+    public final int getExperienceLevel() {
         return experienceLevel;
     }
 
     @LuaFunction
-    public float getHealth() {
+    public final float getHealth() {
         return health;
     }
 
     @LuaFunction
-    public int getArmor() {
+    public final int getArmor() {
         return armor;
     }
 
     @LuaFunction
-    public int getFood() {
+    public final int getFood() {
         return food;
     }
 
     @LuaFunction
-    public Map<String, Object> toTable() {
+    public final Map<String, Object> toTable() {
         Map<String, Object> data = new HashMap<>();
         data.put("name", this.name);
         data.put("uuid", this.uuid);
