@@ -4,18 +4,17 @@ import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
 
 
 public class TilePlayerSensor extends TileGeneric implements IPeripheralTile, Tickable {
@@ -47,6 +46,12 @@ public class TilePlayerSensor extends TileGeneric implements IPeripheralTile, Ti
                 }
             }
         }
+    }
+
+    @Nullable
+    @Override
+    public IPeripheral getPeripheral(@NotNull net.minecraft.class_2350 side) {
+        return null;
     }
 
     private static final class Peripheral extends PlayerSensorPeripheral {

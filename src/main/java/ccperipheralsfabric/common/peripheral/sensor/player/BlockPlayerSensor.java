@@ -8,6 +8,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
@@ -32,5 +33,11 @@ public class BlockPlayerSensor extends FacingBlock implements BlockEntityProvide
     @Override
     public BlockEntity createBlockEntity(BlockView world) {
         return new TilePlayerSensor();
+    }
+
+    @Nullable
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return null;
     }
 }
