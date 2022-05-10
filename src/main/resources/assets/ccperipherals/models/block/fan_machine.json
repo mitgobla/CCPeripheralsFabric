@@ -1,5 +1,4 @@
 {
-	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "ccperipherals:block/environment_sensor_top",
 		"1": "ccperipherals:block/fan_machine_front",

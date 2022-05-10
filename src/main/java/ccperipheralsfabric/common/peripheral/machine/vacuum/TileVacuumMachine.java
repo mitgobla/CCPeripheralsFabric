@@ -4,28 +4,34 @@ import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Tickable;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.RaycastContext;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.ClipBlockStateContext;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 
-public class TileVacuumMachine extends TileGeneric implements IPeripheralTile, Tickable {
+public class TileVacuumMachine extends TileGeneric implements IPeripheralTile {
     private final VacuumMachinePeripheral peripheral;
 
-    public TileVacuumMachine() {
-        super(CCPeripheralsFabric.TILE_VACUUM_MACHINE);
+    public static final Predicate<Entity> PUSHABLE_ENTITY = entity -> !entity.isSpectator() && entity.getPistonPushReaction() != PushReaction.IGNORE;
+
+    public TileVacuumMachine(BlockPos pos, BlockState state) {
+        super(CCPeripheralsFabric.TILE_VACUUM_MACHINE, pos, state);
         this.peripheral = new Peripheral(this);
     }
 
@@ -34,10 +40,9 @@ public class TileVacuumMachine extends TileGeneric implements IPeripheralTile, T
         return this.peripheral;
     }
 
-    @Override
     public void tick() {
-        boolean enabled = this.getCachedState().get(BlockVacuumMachine.ENABLED);
-        if (this.world != null) {
+        boolean enabled = this.getBlockState().getValue(BlockVacuumMachine.ENABLED);
+        if (this.level != null) {
             if (enabled) {
                 pullEntities();
             }
@@ -45,25 +50,25 @@ public class TileVacuumMachine extends TileGeneric implements IPeripheralTile, T
     }
 
     private void pullEntities() {
-        if (this.world != null ) {
-            Box box = new Box(this.getPos().add(-4.0, -4.0, -4.0), this.getPos().add(5.0, 5.0, 5.0));
-            List<Entity> entities = this.world.getEntitiesByClass(LivingEntity.class, box, null);
-            Vec3d dirVector = new Vec3d(this.getPos().getX(), this.getPos().getY(), this.getPos().getZ()).add(0.5, 0.5, 0.5);
-            Vec3d normVector = new Vec3d(0, 0, 0);
-            for (Entity entity : entities) {
-                normVector = entity.getPos().subtract(dirVector).normalize();
-                if (world.raycast(new RaycastContext(dirVector.add(normVector).add(normVector), entity.getPos(), RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, entity)).getType() != HitResult.Type.MISS) {
+        if (this.level != null ) {
+            AABB box = new AABB(this.getBlockPos().offset(-4.0, -4.0, -4.0), this.getBlockPos().offset(5.0, 5.0, 5.0));
+            List<LivingEntity> entities = this.level.getEntitiesOfClass(LivingEntity.class, box, PUSHABLE_ENTITY);
+            Vec3 dirVector = new Vec3(this.getBlockPos().getX(), this.getBlockPos().getY(), this.getBlockPos().getZ()).add(0.5, 0.5, 0.5);
+            Vec3 normVector = new Vec3(0, 0, 0);
+            for (LivingEntity entity : entities) {
+                normVector = entity.position().subtract(dirVector).normalize();
+
+                if (level.clip(new ClipContext(dirVector.add(normVector).add(normVector), entity.position(), ClipContext.Block.COLLIDER, ClipContext.Fluid.NONE, entity)).getType() != HitResult.Type.MISS) {
                     continue;
                 }
 
-                if (entity instanceof PlayerEntity) {
-                    PlayerEntity player = (PlayerEntity) entity;
+                if (entity instanceof Player player) {
                     if (player.isCreative() || player.isSpectator()) {
                         continue;
                     }
                 }
-                normVector = normVector.multiply(0.12);
-                entity.setVelocity(entity.getVelocity().subtract(normVector));
+                normVector = normVector.scale(0.12);
+                entity.setDeltaMovement(entity.getDeltaMovement().subtract(normVector));
             }
         }
     }
@@ -75,13 +80,13 @@ public class TileVacuumMachine extends TileGeneric implements IPeripheralTile, T
             this.sensor = sensor;
         }
 
-        public World getWorld() {
-            return this.sensor.getWorld();
+        public Level getWorld() {
+            return this.sensor.getLevel();
         }
 
-        public Vec3d getPosition() {
-            BlockPos pos = this.sensor.getPos();
-            return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        public Vec3 getPosition() {
+            BlockPos pos = this.sensor.getBlockPos();
+            return new Vec3(pos.getX(), pos.getY(), pos.getZ());
         }
 
         public boolean equals(@Nullable IPeripheral other) {

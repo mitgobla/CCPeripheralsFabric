@@ -5,21 +5,19 @@ import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.Tickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-// implements Tickable
 
 public class TileEnvironmentSensor extends TileGeneric implements IPeripheralTile {
     private final EnvironmentSensorPeripheral peripheral;
 
-    public TileEnvironmentSensor() {
-        super(CCPeripheralsFabric.TILE_ENVIRONMENT_SENSOR);
+    public TileEnvironmentSensor(BlockPos pos, BlockState state) {
+        super(CCPeripheralsFabric.TILE_ENVIRONMENT_SENSOR, pos, state);
         this.peripheral = new Peripheral(this);
     }
 
@@ -28,24 +26,19 @@ public class TileEnvironmentSensor extends TileGeneric implements IPeripheralTil
         return this.peripheral;
     }
 
-//    @Override
-//    public void tick() {
-//        this.peripheral.update();
-//    }
-
     private static final class Peripheral extends EnvironmentSensorPeripheral {
         private final TileEnvironmentSensor sensor;
         private Peripheral(TileEnvironmentSensor sensor) {
             this.sensor = sensor;
         }
 
-        public World getWorld() {
-            return this.sensor.getWorld();
+        public Level getWorld() {
+            return this.sensor.getLevel();
         }
 
-        public Vec3d getPosition() {
-            BlockPos pos = this.sensor.getPos();
-            return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        public Vec3 getPosition() {
+            BlockPos pos = this.sensor.getBlockPos();
+            return new Vec3(pos.getX(), pos.getY(), pos.getZ());
         }
 
         public boolean equals(@Nullable IPeripheral other) {

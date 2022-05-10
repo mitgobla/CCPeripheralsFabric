@@ -5,19 +5,18 @@ import ccperipheralsfabric.common.peripheral.machine.fan.TileFanMachine;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
-import net.minecraft.block.entity.BlockEntityType;
-import net.minecraft.util.Tickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class TileLEDMachine extends TileGeneric implements IPeripheralTile {
     private final LEDMachinePeripheral peripheral;
 
-    public TileLEDMachine() {
-        super(CCPeripheralsFabric.TILE_LED_MACHINE);
+    public TileLEDMachine(BlockPos pos, BlockState state) {
+        super(CCPeripheralsFabric.TILE_LED_MACHINE, pos, state);
         this.peripheral = new Peripheral(this);
     }
 
@@ -30,13 +29,13 @@ public class TileLEDMachine extends TileGeneric implements IPeripheralTile {
         private final TileLEDMachine machine;
         private Peripheral(TileLEDMachine machine) { this.machine = machine; }
 
-        public World getWorld() {
-            return this.machine.getWorld();
+        public Level getWorld() {
+            return this.machine.getLevel();
         }
 
-        public Vec3d getPosition() {
-            BlockPos pos = this.machine.getPos();
-            return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        public Vec3 getPosition() {
+            BlockPos pos = this.machine.getBlockPos();
+            return new Vec3(pos.getX(), pos.getY(), pos.getZ());
         }
 
         public boolean equals(@Nullable IPeripheral other) {

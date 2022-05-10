@@ -16,12 +16,12 @@
   },
   "parent": "ccperipherals:root",
   "criteria": {
-    "crit1": {
+    "vacuum_machine_criteria": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "ccperipherals:vacuum_machine"
+            "items": [ "ccperipherals:vacuum_machine" ]
           }
         ]
       }

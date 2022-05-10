@@ -4,36 +4,35 @@ import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Tickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
 
-public class TileItemSensor extends TileGeneric implements IPeripheralTile, Tickable {
+public class TileItemSensor extends TileGeneric implements IPeripheralTile{
     private final ItemSensorPeripheral peripheral;
 
-    public TileItemSensor() {
-        super(CCPeripheralsFabric.TILE_ITEM_SENSOR);
+    public TileItemSensor(BlockPos pos, BlockState state) {
+        super(CCPeripheralsFabric.TILE_ITEM_SENSOR, pos, state);
         this.peripheral = new Peripheral(this);
     }
 
     @Override
-    public void tick() {
-        if (this.world != null && this.peripheral.isEnabled() && !this.world.isClient && this.world.getTime()%20==0) {
-            Box box = new Box(new BlockPos(this.getPos()).add(-4, 0, -4), new BlockPos(this.getPos()).add(4, 1, 4));
-            List<ItemEntity> items = world.getEntitiesByClass(ItemEntity.class, box, null);
+    public void blockTick() {
+        if (this.level != null && this.peripheral.isEnabled() && !this.level.isClientSide && this.level.getGameTime()%20==0) {
+            AABB box = new AABB(new BlockPos(this.getBlockPos()).offset(-4, 0, -4), new BlockPos(this.getBlockPos()).offset(4, 1, 4));
+            List<ItemEntity> items = level.getEntitiesOfClass(ItemEntity.class, box, null);
             if (items.size() > 0) {
                 int count = 0;
                 for (ItemEntity item: items) {
-                    count += item.getStack().getCount();
+                    count += item.getItem().getCount();
                 }
                 this.peripheral.broadcastItems(count);
             }
@@ -52,13 +51,13 @@ public class TileItemSensor extends TileGeneric implements IPeripheralTile, Tick
             this.sensor = sensor;
         }
 
-        public World getWorld() {
-            return this.sensor.getWorld();
+        public Level getWorld() {
+            return this.sensor.getLevel();
         }
 
-        public Vec3d getPosition() {
-            BlockPos pos = this.sensor.getPos();
-            return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        public Vec3 getPosition() {
+            BlockPos pos = this.sensor.getBlockPos();
+            return new Vec3(pos.getX(), pos.getY(), pos.getZ());
         }
 
         public boolean equals(@Nullable IPeripheral other) {

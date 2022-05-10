@@ -1,36 +1,42 @@
 package ccperipheralsfabric.common.peripheral.sensor.item;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FacingBlock;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class BlockItemSensor extends FacingBlock implements BlockEntityProvider {
+public class BlockItemSensor extends BaseEntityBlock {
 
-    public BlockItemSensor(Settings settings) {
+    public BlockItemSensor(Properties settings) {
         super(settings);
-        setDefaultState(this.getStateManager().getDefaultState().with(Properties.FACING, Direction.SOUTH));
+        registerDefaultState(this.getStateDefinition().any().setValue(BlockStateProperties.FACING, Direction.SOUTH));
     }
 
     @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> stateManager) {
-        stateManager.add(Properties.FACING);
+    public RenderShape getRenderShape(BlockState blockState) {
+        return RenderShape.MODEL;
     }
 
-    public BlockState getPlacementState(ItemPlacementContext ctx) {
-        return (BlockState) this.getDefaultState().with(Properties.FACING, ctx.getPlayerLookDirection().getOpposite());
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> stateManager) {
+        stateManager.add(BlockStateProperties.FACING);
     }
+
+    public BlockState getStateForPlacement(BlockPlaceContext ctx) {
+        return (BlockState) this.defaultBlockState().setValue(BlockStateProperties.FACING, ctx.getNearestLookingDirection().getOpposite());
+    }
+
 
     @Nullable
     @Override
-    public BlockEntity createBlockEntity(BlockView world) {
-        return new TileItemSensor();
+    public BlockEntity newBlockEntity(@NotNull BlockPos blockPos, @NotNull BlockState blockState) {
+        return new TileItemSensor(blockPos, blockState);
     }
 }

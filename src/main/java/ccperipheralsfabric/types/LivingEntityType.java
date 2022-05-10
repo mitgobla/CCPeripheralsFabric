@@ -1,13 +1,12 @@
 package ccperipheralsfabric.types;
 
 import dan200.computercraft.api.lua.LuaFunction;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.util.registry.Registry;
-
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.Registry;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Monster;
 
 public class LivingEntityType {
     private final String name;
@@ -18,16 +17,16 @@ public class LivingEntityType {
     private final boolean isHostile;
 
     public LivingEntityType(LivingEntity livingEntity) {
-        this.name = I18n.translate(livingEntity.getType().getTranslationKey());
-        this.identifier = Registry.ENTITY_TYPE.getId(livingEntity.getType()).toString();
+        this.name = I18n.get(livingEntity.getType().getDescriptionId());
+        this.identifier = Registry.ENTITY_TYPE.getKey(livingEntity.getType()).toString();
         if (livingEntity.getCustomName() != null) {
-            this.customName = livingEntity.getCustomName().asString();
+            this.customName = livingEntity.getCustomName().getContents();
         } else {
             this.customName = this.name;
         }
         this.health = livingEntity.getHealth();
         this.maxHealth = livingEntity.getMaxHealth();
-        this.isHostile = livingEntity instanceof HostileEntity;
+        this.isHostile = livingEntity instanceof Monster;
     }
 
     @LuaFunction

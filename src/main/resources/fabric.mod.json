@@ -20,9 +20,11 @@
   "entrypoints": {
     "main": [
       "ccperipheralsfabric.CCPeripheralsFabric"
+    ],
+    "client": [
+      "ccperipheralsfabric.client.CCPeripheralsFabricClient"
     ]
   },
-
   "depends": {
     "fabricloader": ">=0.13.3",
     "fabric": "*",
@@ -30,6 +32,6 @@
     "java": ">=17"
   },
   "suggests": {
-    "cc-restitched": "*"
+    "another-mod": "*"
   }
 }

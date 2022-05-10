@@ -4,12 +4,12 @@ import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.Tickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,11 +17,11 @@ import java.util.List;
 
 
 
-public class TilePlayerSensor extends TileGeneric implements IPeripheralTile, Tickable {
+public class TilePlayerSensor extends TileGeneric implements IPeripheralTile {
     private final PlayerSensorPeripheral peripheral;
 
-    public TilePlayerSensor() {
-        super(CCPeripheralsFabric.TILE_PLAYER_SENSOR);
+    public TilePlayerSensor(BlockPos pos, BlockState state) {
+        super(CCPeripheralsFabric.TILE_PLAYER_SENSOR, pos, state);
         this.peripheral = new Peripheral(this);
     }
 
@@ -31,13 +31,13 @@ public class TilePlayerSensor extends TileGeneric implements IPeripheralTile, Ti
     }
 
     @Override
-    public void tick() {
-        if (this.world != null && this.peripheral.isEnabled() && !this.world.isClient && this.world.getTime()%20==0) {
-            List<? extends PlayerEntity> players = this.world.getPlayers();
+    public void blockTick() {
+        if (this.level != null && this.peripheral.isEnabled() && !this.level.isClientSide && this.level.getGameTime()%20==0) {
+            List<? extends Player> players = this.level.players();
             if (players.size() > 0) {
                 int count = 0;
-                for (PlayerEntity player: players) {
-                    if (player.getPos().distanceTo(peripheral.getPosition()) < 16) {
+                for (Player player: players) {
+                    if (player.position().distanceTo(peripheral.getPosition()) < 16) {
                         count++;
                     }
                 }
@@ -48,25 +48,19 @@ public class TilePlayerSensor extends TileGeneric implements IPeripheralTile, Ti
         }
     }
 
-    @Nullable
-    @Override
-    public IPeripheral getPeripheral(@NotNull net.minecraft.class_2350 side) {
-        return null;
-    }
-
     private static final class Peripheral extends PlayerSensorPeripheral {
         private final TilePlayerSensor sensor;
         private Peripheral(TilePlayerSensor sensor) {
             this.sensor = sensor;
         }
 
-        public World getWorld() {
-            return this.sensor.getWorld();
+        public Level getWorld() {
+            return this.sensor.getLevel();
         }
 
-        public Vec3d getPosition() {
-            BlockPos pos = this.sensor.getPos();
-            return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        public Vec3 getPosition() {
+            BlockPos pos = this.sensor.getBlockPos();
+            return new Vec3(pos.getX(), pos.getY(), pos.getZ());
         }
 
         public boolean equals(@Nullable IPeripheral other) {

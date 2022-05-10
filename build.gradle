@@ -16,22 +16,36 @@ repositories {
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+	mavenLocal()
+	mavenCentral()
 	maven {
 		name "SquidDev"
 		url "https://squiddev.cc/maven"
 	}
 	maven { url 'https://jitpack.io' }
+	maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://maven.terraformersmc.com/releases" }
+	maven { url "https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/" }
 }
 
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+	mappings loom.officialMojangMappings()
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	implementation 'com.github.cc-tweaked:cc-restitched:v1.18.2-1.100.3-ccr'
+
+	modApi 'com.electronwill.night-config:core:3.6.5'
+	modApi 'com.electronwill.night-config:toml:3.6.5'
+
+	modApi "com.github.cc-tweaked:cc-restitched:${project.cc_version}"
+//	modImplementation "software.bernie.geckolib:geckolib-fabric-1.18:${project.gecko_version}"
+
+
+	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}") {
+		exclude(group: "net.fabricmc.fabric-api")
+	}
 }
 
 processResources {

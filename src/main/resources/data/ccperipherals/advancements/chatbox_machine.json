@@ -16,12 +16,12 @@
   },
   "parent": "ccperipherals:root",
   "criteria": {
-    "crit1": {
+    "chatbox_machine_criteria": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "ccperipherals:chatbox_machine"
+            "items": [ "ccperipherals:chatbox_machine" ]
           }
         ]
       }

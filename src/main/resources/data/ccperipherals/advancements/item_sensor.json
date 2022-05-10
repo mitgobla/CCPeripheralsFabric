@@ -16,12 +16,12 @@
   },
   "parent": "ccperipherals:root",
   "criteria": {
-    "crit1": {
+    "item_sensor_criteria": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "ccperipherals:item_sensor"
+            "items": [ "ccperipherals:item_sensor" ]
           }
         ]
       }

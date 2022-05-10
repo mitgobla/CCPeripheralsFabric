@@ -5,9 +5,6 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -15,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class PlayerSensorPeripheral implements IPeripheral {
     private final Set<IComputerAccess> m_computers = new HashSet<>(1);
@@ -26,9 +26,9 @@ public abstract class PlayerSensorPeripheral implements IPeripheral {
         return "player_sensor";
     }
 
-    public abstract World getWorld();
+    public abstract Level getWorld();
 
-    public abstract Vec3d getPosition();
+    public abstract Vec3 getPosition();
 
     public boolean isEnabled() {
         return enabled;
@@ -57,19 +57,19 @@ public abstract class PlayerSensorPeripheral implements IPeripheral {
 
     @LuaFunction
     public final int getPlayerCount() throws LuaException {
-        if (this.getWorld() != null && this.isEnabled() && !this.getWorld().isClient) {
+        if (this.getWorld() != null && this.isEnabled() && !this.getWorld().isClientSide) {
             return getPlayerCountMethod();
         }
         return 0;
     }
 
     public synchronized int getPlayerCountMethod() throws LuaException {
-        World world = this.getWorld();
-        List<? extends PlayerEntity> players = world.getPlayers();
+        Level world = this.getWorld();
+        List<? extends Player> players = world.players();
         int count = 0;
         if (players.size() > 0) {
-            for (PlayerEntity player: players) {
-                if (player.getPos().distanceTo(this.getPosition()) < 16) {
+            for (Player player: players) {
+                if (player.position().distanceTo(this.getPosition()) < 16) {
                     count++;
                 }
             }
@@ -79,19 +79,19 @@ public abstract class PlayerSensorPeripheral implements IPeripheral {
 
     @LuaFunction
     public final ArrayList<PlayerType> getPlayers() throws LuaException {
-        if (this.getWorld() != null && this.isEnabled() && !this.getWorld().isClient) {
+        if (this.getWorld() != null && this.isEnabled() && !this.getWorld().isClientSide) {
             return getPlayersMethod();
         }
         return null;
     }
 
     public synchronized ArrayList<PlayerType> getPlayersMethod() throws LuaException {
-        World world = this.getWorld();
-        List<? extends PlayerEntity> players = world.getPlayers();
+        Level world = this.getWorld();
+        List<? extends Player> players = world.players();
         if (players.size() > 0) {
             ArrayList<PlayerType> playerTypes = new ArrayList<>();
-            for (PlayerEntity player: players) {
-                if (player.getPos().distanceTo(this.getPosition()) < 16) {
+            for (Player player: players) {
+                if (player.position().distanceTo(this.getPosition()) < 16) {
                     playerTypes.add(new PlayerType(player));
                 }
             }

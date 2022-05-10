@@ -4,14 +4,12 @@ import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.block.BlockState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.state.property.Properties;
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -24,9 +22,9 @@ public abstract class EnvironmentSensorPeripheral implements IPeripheral {
         return "environment_sensor";
     }
 
-    public abstract World getWorld();
+    public abstract Level getWorld();
 
-    public abstract Vec3d getPosition();
+    public abstract Vec3 getPosition();
     /**
      * Gets data about the world this sensor is in.
      */
@@ -38,20 +36,20 @@ public abstract class EnvironmentSensorPeripheral implements IPeripheral {
     }
 
     private synchronized Map<String, Object> getDataMethod() throws LuaException {
-        World world = this.getWorld();
-        Vec3d pos = this.getPosition();
+        Level world = this.getWorld();
+        Vec3 pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));
         Map<String, Object> data = new HashMap<String, Object>();
 
-        data.put("time", world.getTime());
+        if (world.getBiome(new BlockPos(pos)).unwrap().left().isPresent()) data.put("biome", world.getBiome(new BlockPos(pos).offset(state.getValue(BlockStateProperties.FACING).getNormal())).unwrap().left().get().location().getPath());
         data.put("daytime", world.isDay());
-        data.put("dimension", world.getDimension());
-        data.put("biome", world.getBiome(new BlockPos(pos).add(state.get(Properties.FACING).getVector())));
+        data.put("dimension", world.dimension().location().getPath());
+        data.put("light_level", world.getMaxLocalRawBrightness(new BlockPos(pos).offset(state.getValue(BlockStateProperties.FACING).getNormal())));
+        data.put("moon_phase", getMoonPhase(world.dayTime()));
         data.put("raining", world.isRaining());
-        data.put("light_level", world.getLightLevel(new BlockPos(pos).add(state.get(Properties.FACING).getVector())));
+        data.put("sky_angle", world.getTimeOfDay(1.0F));
         data.put("thunder", world.isThundering());
-        data.put("moon_phase", getMoonPhase(world.getLunarTime()));
-        data.put("sky_angle", world.getSkyAngle(1.0F));
+        data.put("time", world.getGameTime());
         return data;
     }
 

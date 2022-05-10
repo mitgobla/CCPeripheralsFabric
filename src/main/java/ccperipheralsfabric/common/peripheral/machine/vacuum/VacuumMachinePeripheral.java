@@ -3,10 +3,10 @@ package ccperipheralsfabric.common.peripheral.machine.vacuum;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class VacuumMachinePeripheral implements IPeripheral {
@@ -16,9 +16,9 @@ public abstract class VacuumMachinePeripheral implements IPeripheral {
         return "vacuum_machine";
     }
 
-    public abstract World getWorld();
+    public abstract Level getWorld();
 
-    public abstract Vec3d getPosition();
+    public abstract Vec3 getPosition();
     
 
     /**
@@ -33,12 +33,12 @@ public abstract class VacuumMachinePeripheral implements IPeripheral {
     }
 
     private synchronized boolean toggleMethod() throws LuaException {
-        World world = this.getWorld();
-        if (world.isClient) return false;
-        Vec3d pos = this.getPosition();
+        Level world = this.getWorld();
+        if (world.isClientSide) return false;
+        Vec3 pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));
-        world.setBlockState(new BlockPos(pos), state.with(BlockVacuumMachine.ENABLED, !state.get(BlockVacuumMachine.ENABLED)));
-        return world.getBlockState(new BlockPos(pos)).get(BlockVacuumMachine.ENABLED);
+        world.setBlockAndUpdate(new BlockPos(pos), state.setValue(BlockVacuumMachine.ENABLED, !state.getValue(BlockVacuumMachine.ENABLED)));
+        return world.getBlockState(new BlockPos(pos)).getValue(BlockVacuumMachine.ENABLED);
     }
 
 
@@ -53,12 +53,12 @@ public abstract class VacuumMachinePeripheral implements IPeripheral {
 
 
     private synchronized boolean stateMethod() throws LuaException {
-        World world = this.getWorld();
-        if (world.isClient) return false;
-        Vec3d pos = this.getPosition();
+        Level world = this.getWorld();
+        if (world.isClientSide) return false;
+        Vec3 pos = this.getPosition();
         BlockState state = world.getBlockState(new BlockPos(pos));
 
-        return state.get(BlockVacuumMachine.ENABLED);
+        return state.getValue(BlockVacuumMachine.ENABLED);
     }
 
 }

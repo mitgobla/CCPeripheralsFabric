@@ -19,7 +19,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:redstone"
+            "items": [ "minecraft:redstone" ]
           }
         ]
       }
@@ -29,7 +29,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:iron_ingot"
+            "items": [ "minecraft:iron_ingot" ]
           }
         ]
       }

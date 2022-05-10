@@ -1,11 +1,10 @@
 package ccperipheralsfabric.types;
 
 import dan200.computercraft.api.lua.LuaFunction;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.util.registry.Registry;
-
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.core.Registry;
+import net.minecraft.world.entity.item.ItemEntity;
 
 public class ItemType {
     private final String name;
@@ -17,13 +16,13 @@ public class ItemType {
     private final boolean enchanted;
 
     public ItemType(ItemEntity item) {
-        this.name = Registry.ITEM.getId(item.getStack().getItem()).toString();
-        this.customName = item.getStack().getName().asString();
-        this.count = item.getStack().getCount();
-        this.maxCount = item.getStack().getMaxCount();
-        this.damage = item.getStack().getDamage();
-        this.maxDamage = item.getStack().getMaxDamage();
-        this.enchanted = item.getStack().hasEnchantments();
+        this.name = Registry.ITEM.getKey(item.getItem().getItem()).toString();
+        this.customName = item.getItem().getHoverName().getContents();
+        this.count = item.getItem().getCount();
+        this.maxCount = item.getItem().getMaxStackSize();
+        this.damage = item.getItem().getDamageValue();
+        this.maxDamage = item.getItem().getMaxDamage();
+        this.enchanted = item.getItem().isEnchanted();
     }
 
     @LuaFunction

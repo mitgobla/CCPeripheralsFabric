@@ -1,104 +1,105 @@
 package ccperipheralsfabric.common.item;
 
-import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.*;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.List;
 import java.util.UUID;
 
 public class SecurityCardItem extends Item {
 
 
-    public SecurityCardItem(Settings settings) {
+    public SecurityCardItem(Properties settings) {
         super(settings);
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (user.isSneaking()) {
-            CompoundTag tag = user.getStackInHand(hand).getTag();
+    public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+        if (user.isShiftKeyDown()) {
+            CompoundTag tag = user.getItemInHand(hand).getTag();
             if (tag == null) {
                 tag = new CompoundTag();
             }
             // Switch to a Player Security Card
             if (tag.contains("entity")) tag.remove("entity");
             tag.putString("player", user.getGameProfile().getId().toString());
-            user.getStackInHand(hand).setTag(tag);
-            user.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.5F);
-            if (world.isClient()) {
-                TranslatableText text = new TranslatableText("item.ccperipherals.security_card.changed");
-                user.sendMessage(text.append(user.getGameProfile().getName()), true);
+            user.getItemInHand(hand).setTag(tag);
+            user.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 1, 0.5F);
+            if (world.isClientSide()) {
+                TranslatableComponent text = new TranslatableComponent("item.ccperipherals.security_card.changed");
+                user.displayClientMessage(text.append(user.getGameProfile().getName()), true);
             }
-            return TypedActionResult.success(user.getStackInHand(hand));
+            return InteractionResultHolder.success(user.getItemInHand(hand));
         } else {
-            HitResult result = user.raycast(10, 0, true);
-            List<LivingEntity> nearestEntities = world.getEntitiesByClass(LivingEntity.class, new Box(result.getPos().add(-4, -4, -4), result.getPos().add(5, 5, 5)), LivingEntity::isAlive);
+            HitResult result = user.pick(10, 0, true);
+            List<LivingEntity> nearestEntities = world.getEntitiesOfClass(LivingEntity.class, new AABB(result.getLocation().add(-4, -4, -4), result.getLocation().add(5, 5, 5)), LivingEntity::isAlive);
             if (nearestEntities.size() == 0) {
                 // Reset Security Card, since there are no entities in ray, and player is not crouching.
-                CompoundTag tag = user.getStackInHand(hand).getTag();
-                if (tag == null) return TypedActionResult.success(user.getStackInHand(hand));
-                if (tag.isEmpty()) return TypedActionResult.success(user.getStackInHand(hand));
+                CompoundTag tag = user.getItemInHand(hand).getTag();
+                if (tag == null) return InteractionResultHolder.success(user.getItemInHand(hand));
+                if (tag.isEmpty()) return InteractionResultHolder.success(user.getItemInHand(hand));
                 if (tag.contains("player")) tag.remove("player");
                 if (tag.contains("entity")) tag.remove("entity");
-                if (world.isClient()) {
-                    TranslatableText text = new TranslatableText("item.ccperipherals.security_card.removed");
-                    user.sendMessage(text, true);
+                if (world.isClientSide()) {
+                    TranslatableComponent text = new TranslatableComponent("item.ccperipherals.security_card.removed");
+                    user.displayClientMessage(text, true);
                 }
-                return TypedActionResult.success(user.getStackInHand(hand));
+                return InteractionResultHolder.success(user.getItemInHand(hand));
             }
             LivingEntity nearestEntity = nearestEntities.get(0);
             if (nearestEntity != null) {
                 // Ignore entity if it is the user
-                if (nearestEntity.equals(user)) return TypedActionResult.pass(user.getStackInHand(hand));
+                if (nearestEntity.equals(user)) return InteractionResultHolder.pass(user.getItemInHand(hand));
                 // Ignore other players. they must shift-right-click themselves.
-                if (nearestEntity instanceof PlayerEntity) {
-                    if (user.getEntityWorld().isClient()) {
-                        user.sendMessage(new TranslatableText("item.ccperipherals.security_card.fail"), true);
+                if (nearestEntity instanceof Player) {
+                    if (user.getCommandSenderWorld().isClientSide()) {
+                        user.displayClientMessage(new TranslatableComponent("item.ccperipherals.security_card.fail"), true);
                     }
-                    return TypedActionResult.pass(user.getStackInHand(hand));
+                    return InteractionResultHolder.pass(user.getItemInHand(hand));
                 }
 
                 // Switch to an Entity Security Card
-                CompoundTag tag = user.getStackInHand(hand).getTag();
+                CompoundTag tag = user.getItemInHand(hand).getTag();
                 if (tag == null) {
                     tag = new CompoundTag();
                 }
                 if (tag.contains("player")) tag.remove("player");
                 if (tag.contains("entity")) {
-                    if (tag.getString("entity").equals(Registry.ENTITY_TYPE.getId(nearestEntity.getType()).toString())) {
-                        return TypedActionResult.pass(user.getStackInHand(hand));
+                    if (tag.getString("entity").equals(Registry.ENTITY_TYPE.getKey(nearestEntity.getType()).toString())) {
+                        return InteractionResultHolder.pass(user.getItemInHand(hand));
                     }
                 }
-                tag.putString("entity", Registry.ENTITY_TYPE.getId(nearestEntity.getType()).toString());
-                user.getStackInHand(hand).setTag(tag);
-                user.playSound(SoundEvents.ENTITY_EXPERIENCE_ORB_PICKUP, 1, 0.5F);
-                if (user.getEntityWorld().isClient()) {
-                    TranslatableText text = new TranslatableText("item.ccperipherals.security_card.changed");
-                    user.sendMessage(text.append(new TranslatableText(nearestEntity.getType().getTranslationKey())), true);
+                tag.putString("entity", Registry.ENTITY_TYPE.getKey(nearestEntity.getType()).toString());
+                user.getItemInHand(hand).setTag(tag);
+                user.playSound(SoundEvents.EXPERIENCE_ORB_PICKUP, 1, 0.5F);
+                if (user.getCommandSenderWorld().isClientSide()) {
+                    TranslatableComponent text = new TranslatableComponent("item.ccperipherals.security_card.changed");
+                    user.displayClientMessage(text.append(new TranslatableComponent(nearestEntity.getType().getDescriptionId())), true);
                 }
-                return TypedActionResult.success(user.getStackInHand(hand));
+                return InteractionResultHolder.success(user.getItemInHand(hand));
             }
         }
-        return TypedActionResult.pass(user.getStackInHand(hand));
+        return InteractionResultHolder.pass(user.getItemInHand(hand));
     }
 
     @Override
-    public boolean hasGlint(ItemStack stack) {
+    public boolean isFoil(ItemStack stack) {
         CompoundTag tag = stack.getTag();
         if (tag != null) {
             return tag.contains("entity") || tag.contains("player");
@@ -107,17 +108,17 @@ public class SecurityCardItem extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
+    public void appendHoverText(ItemStack stack, @Nullable Level world, List<Component> tooltip, TooltipFlag context) {
         CompoundTag tag = stack.getTag();
         if (tag != null && world != null) {
             if (tag.contains("player")) {
-                PlayerEntity player = world.getPlayerByUuid(UUID.fromString(tag.getString("player")));
+                Player player = world.getPlayerByUUID(UUID.fromString(tag.getString("player")));
                 if (player != null) {
-                    tooltip.add(new LiteralText(player.getGameProfile().getName()));
+                    tooltip.add(new TextComponent(player.getGameProfile().getName()));
                 }
             }
             if (tag.contains("entity")) {
-                tooltip.add(new TranslatableText(Registry.ENTITY_TYPE.get(Identifier.tryParse(tag.getString("entity"))).getTranslationKey()));
+                tooltip.add(new TranslatableComponent(Registry.ENTITY_TYPE.get(ResourceLocation.tryParse(tag.getString("entity"))).getDescriptionId()));
             }
         }
     }

@@ -4,23 +4,20 @@ import ccperipheralsfabric.CCPeripheralsFabric;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import dan200.computercraft.api.peripheral.IPeripheralTile;
 import dan200.computercraft.shared.common.TileGeneric;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.util.Tickable;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
 
 
 public class TileEntitySensor extends TileGeneric implements IPeripheralTile {
     private final EntitySensorPeripheral peripheral;
 
-    public TileEntitySensor() {
-        super(CCPeripheralsFabric.TILE_ENTITY_SENSOR);
+    public TileEntitySensor(BlockPos pos, BlockState state) {
+        super(CCPeripheralsFabric.TILE_ENTITY_SENSOR, pos, state);
         this.peripheral = new Peripheral(this);
     }
 
@@ -36,13 +33,13 @@ public class TileEntitySensor extends TileGeneric implements IPeripheralTile {
             this.sensor = sensor;
         }
 
-        public World getWorld() {
-            return this.sensor.getWorld();
+        public Level getWorld() {
+            return this.sensor.getLevel();
         }
 
-        public Vec3d getPosition() {
-            BlockPos pos = this.sensor.getPos();
-            return new Vec3d(pos.getX(), pos.getY(), pos.getZ());
+        public Vec3 getPosition() {
+            BlockPos pos = this.sensor.getBlockPos();
+            return new Vec3(pos.getX(), pos.getY(), pos.getZ());
         }
 
         public boolean equals(@Nullable IPeripheral other) {

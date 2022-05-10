@@ -1,11 +1,10 @@
 package ccperipheralsfabric.types;
 
 import dan200.computercraft.api.lua.LuaFunction;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.BlockPos;
-
 import java.util.HashMap;
 import java.util.Map;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.player.Player;
 
 public class PlayerType {
     private final String name;
@@ -16,14 +15,14 @@ public class PlayerType {
     private final int food;
     private final BlockPos pos;
 
-    public PlayerType(PlayerEntity player) {
+    public PlayerType(Player player) {
         this.name = player.getGameProfile().getName();
         this.uuid = player.getGameProfile().getId().toString();
         this.experienceLevel = player.experienceLevel;
         this.health = player.getHealth();
-        this.armor = player.getArmor();
-        this.food = player.getHungerManager().getFoodLevel();
-        this.pos = player.getBlockPos();
+        this.armor = player.getArmorValue();
+        this.food = player.getFoodData().getFoodLevel();
+        this.pos = player.blockPosition();
     }
 
     @LuaFunction

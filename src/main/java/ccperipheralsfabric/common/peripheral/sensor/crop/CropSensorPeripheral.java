@@ -1,19 +1,20 @@
 package ccperipheralsfabric.common.peripheral.sensor.crop;
 
+import com.mojang.math.Vector3f;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CropBlock;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.particle.DustParticleEffect;
-import net.minecraft.state.property.Properties;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class CropSensorPeripheral implements IPeripheral {
@@ -23,13 +24,13 @@ public abstract class CropSensorPeripheral implements IPeripheral {
         return "crop_sensor";
     }
 
-    public abstract World getWorld();
+    public abstract Level getWorld();
 
-    public abstract Vec3d getPosition();
+    public abstract Vec3 getPosition();
 
     @LuaFunction
     public final int getCropCount() throws LuaException {
-        if (this.getWorld() != null && !this.getWorld().isClient) {
+        if (this.getWorld() != null && !this.getWorld().isClientSide) {
             return getCropCountMethod(false, false);
         }
         return 0;
@@ -37,7 +38,7 @@ public abstract class CropSensorPeripheral implements IPeripheral {
 
     @LuaFunction
     public final int getMatureCropCount() throws LuaException {
-        if (this.getWorld() != null && !this.getWorld().isClient) {
+        if (this.getWorld() != null && !this.getWorld().isClientSide) {
             return getCropCountMethod(true, false);
         }
         return 0;
@@ -49,14 +50,14 @@ public abstract class CropSensorPeripheral implements IPeripheral {
     }
 
     public synchronized int getCropCountMethod(boolean getMature, boolean showBox) throws LuaException {
-        World world = this.getWorld();
-        Direction direction = world.getBlockState(new BlockPos(this.getPosition())).get(Properties.FACING);
-        BlockPos pos1 = new BlockPos(this.getPosition()).add(-4.0, 0.0, -4.0);
-        BlockPos pos2 = new BlockPos(this.getPosition()).add(4.0, 1.0, 4.0);
-        pos1 = pos1.offset(direction, 5);
-        pos2 = pos2.offset(direction, 5);
-        Box box = new Box(pos1, pos2);
-        DustParticleEffect particle = new DustParticleEffect(1, 0, 0, 1);
+        Level world = this.getWorld();
+        Direction direction = world.getBlockState(new BlockPos(this.getPosition())).getValue(BlockStateProperties.FACING);
+        BlockPos pos1 = new BlockPos(this.getPosition()).offset(-4.0, 0.0, -4.0);
+        BlockPos pos2 = new BlockPos(this.getPosition()).offset(4.0, 1.0, 4.0);
+        pos1 = pos1.relative(direction, 5);
+        pos2 = pos2.relative(direction, 5);
+        AABB box = new AABB(pos1, pos2);
+        DustParticleOptions particle = new DustParticleOptions(new Vector3f(0, 0, 1), 1);
 
         int count = 0;
         for (double i = box.minX; i <= box.maxX; i++) {
@@ -66,13 +67,13 @@ public abstract class CropSensorPeripheral implements IPeripheral {
                 Block block = state.getBlock();
                 if (block instanceof CropBlock) {
                     if (showBox) {
-                        if (MinecraftClient.getInstance().world != null) {
-                            MinecraftClient.getInstance().world.addParticle(particle, i + 0.5, box.maxY, j + 0.5, 0, 0, 0);
+                        if (Minecraft.getInstance().level != null) {
+                            Minecraft.getInstance().level.addParticle(particle, i + 0.5, box.maxY, j + 0.5, 0, 0, 0);
                         }
                     }
                     if (getMature) {
                         CropBlock crop = (CropBlock) block;
-                        if (!crop.isMature(state)) {
+                        if (!crop.isMaxAge(state)) {
                             continue;
                         };
                     }
